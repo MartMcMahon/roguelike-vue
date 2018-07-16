@@ -59,9 +59,9 @@
 						{isOpen: true},
 						{isOpen: true},
 						{isOpen: true},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
+						{isOpen: true},
+						{isOpen: true},
+						{isOpen: true},
 						{isOpen: false},
 					],
 					[

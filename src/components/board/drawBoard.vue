@@ -45,7 +45,7 @@ export default {
 	methods: {
 		changeMessage(e) {
 			// this.board = e.target.value
-			this.$store.commit('moveUp')
+			// this.$store.commit('moveUp')
 			console.log(this.player.pos)
 		}
 	}

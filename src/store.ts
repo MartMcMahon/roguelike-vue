@@ -6,18 +6,28 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
 	state: {
 		player: {
-			pos: [200, 100]
+			pos: [2, 1]
 		},
-		message: 'test'
+		nearbyEnemies: [],
 	},
 	getters: {
-		getPlayer(state) {
+		player(state) {
 			return state.player
-		}
+		},
 	},
 	mutations: {
-		moveUp(state) {
-			state.player.pos[0] += 100
+		addBoardToMap(state, board: {worldX: number, worldY: number}) {
+			//this probably won't work
+			// create a new object to get reactivness to trigger
+			// state.worldMap[board.worldX][board.worldY] = board
+		},
+		movePlayer(state, vec) {
+			let x = state.player.pos[0] + vec[0]
+			let y = state.player.pos[1] + vec[1]
+			state.player = {
+				...state.player,
+				pos: [x, y]
+			}
 		}
 	}
 })

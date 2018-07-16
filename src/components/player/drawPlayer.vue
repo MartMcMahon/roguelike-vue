@@ -2,8 +2,10 @@
 	<div class="game-layer">
 		<div 
 			class="player"
-			v-bind:style="{ top: player.pos[1] + 'px', left: player.pos[0] + 'px' }">
+			v-bind:style="{ top: player.pos[1]*50 + 17 + 'px', left: player.pos[0]*50 + 17 + 'px' }"
+			v-bind:player="player">
 			@
+			({{player.pos[0]}}, {{player.pos[1]}})
 		</div>
 	</div>
 </template>
@@ -12,12 +14,14 @@
 	import { mapGetters } from 'vuex'
 
 	export default {
+		data () {
+			return {
+				// player: this.player
+			}
+		},
 		computed: mapGetters({
-			player: 'getPlayer'
+			player: 'player'
 		}),
-		msg() {
-			return this.$store.state.message
-		}
 	}
 </script>
 

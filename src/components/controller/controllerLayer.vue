@@ -1,8 +1,7 @@
 <template>
 	<div 
 		class="handleInput"
-		@keyup="handleKeyUp"
-		@click="handleKeyUp">
+		@keyup="handleKeyUp">
 	</div>
 </template>
 
@@ -11,12 +10,34 @@ import { mapGetters } from 'vuex'
 
 export default {
 	computed: mapGetters({
-		player: 'getPlayer'
+		player: 'player'
 	}),
 	methods: {
 		handleKeyUp(e) {
-			console.log(e)
-			console.log(e.which)
+			e.preventDefault()
+			switch (e.key) {
+				case 'w':
+				case 'ArrowUp':
+					// move up
+					this.$store.commit('movePlayer', [0, -1])
+					break
+				case 's':
+				case 'ArrowDown':
+					//move down
+					this.$store.commit('movePlayer', [0, 1])
+					break
+				case 'a':
+				case 'ArrowLeft':
+					//move left
+					this.$store.commit('movePlayer', [-1, 0])
+					break
+				case 'd':
+				case 'ArrowRight':
+					//move right
+					this.$store.commit('movePlayer', [1, 0])
+					break
+			}
+			console.log(this.player.pos)
 		}
 	},
 	created: function() {
