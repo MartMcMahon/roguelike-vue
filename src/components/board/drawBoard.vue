@@ -4,19 +4,18 @@
 <template>
 	<div class="game-layer">
 		<div 
-			class="tilemap-row"
-			v-for="row in tiles"
-			:key="row.index"
+			class="tilemap-col"
+			v-for="col in tiles"
+			:key="col.index"
 		>
-			<div 
-				class="tile" 
-				v-for="tile in row"
-				:key="tile.index"
-				v-bind:class="{ open: tile.isOpen, closed: !tile.isOpen }"
-			></div>
+		<div 
+			class="tile" 
+			v-for="tile in col"
+			:key="tile.index"
+			v-bind:class="{ open: tile.isOpen, closed: !tile.isOpen }">
 		</div>
-
-		<v-btn style="z-index: 100" @click="changeMessage">click here</v-btn>
+	</div>
+	<v-btn style="z-index: 100" @click="changeMessage">click here</v-btn>
 	</div>
 </template>
 		
@@ -59,8 +58,9 @@ export default {
 		top: 0
 	}
 
-	.tilemap-row {
+	.tilemap-col {
 		display: flex;
+		flex-direction: column;
 	}
 
 	.tile {

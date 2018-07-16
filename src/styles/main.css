@@ -6,6 +6,8 @@
 }
 
 .game-layer {
+	display: flex;
+	flex-direction: row;
 	position: absolute;
 
 	left: 0;

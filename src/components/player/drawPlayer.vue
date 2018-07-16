@@ -2,8 +2,7 @@
 	<div class="game-layer">
 		<div 
 			class="player"
-			v-bind:style="{ top: player.pos[1]*50 + 17 + 'px', left: player.pos[0]*50 + 17 + 'px' }"
-			v-bind:player="player">
+			v-bind:style="{ top: player.pos[1]*50 + 17 + 'px', left: player.pos[0]*50 + 17 + 'px' }">
 			@
 			({{player.pos[0]}}, {{player.pos[1]}})
 		</div>

@@ -5,10 +5,16 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
+		currentBoard: [],
 		player: {
 			pos: [2, 1]
 		},
 		nearbyEnemies: [],
+		nearbyChunks: [
+			[],
+			[],
+			[],
+		],
 	},
 	getters: {
 		player(state) {
@@ -21,12 +27,18 @@ export const store = new Vuex.Store({
 			// create a new object to get reactivness to trigger
 			// state.worldMap[board.worldX][board.worldY] = board
 		},
+		defaultBoard(state, board) {
+			state.currentBoard = board
+		},
 		movePlayer(state, vec) {
 			let x = state.player.pos[0] + vec[0]
 			let y = state.player.pos[1] + vec[1]
-			state.player = {
-				...state.player,
-				pos: [x, y]
+			console.log(state.currentBoard[x][y].isOpen)
+			if (state.currentBoard[x][y].isOpen) {
+				state.player = {
+					...state.player,
+					pos: [x, y]
+				}
 			}
 		}
 	}

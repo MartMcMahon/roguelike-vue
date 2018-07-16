@@ -37,7 +37,6 @@ export default {
 					this.$store.commit('movePlayer', [1, 0])
 					break
 			}
-			console.log(this.player.pos)
 		}
 	},
 	created: function() {
