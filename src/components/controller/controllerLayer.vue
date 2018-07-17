@@ -7,6 +7,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { bus } from '../bus/bus'
 
 export default {
 	computed: mapGetters({
@@ -37,6 +38,13 @@ export default {
 					this.$store.commit('movePlayer', [1, 0])
 					break
 			}
+
+			bus.$emit('tick')
+
+			//not sure this line should really go here
+			//really want each thing that takes a round to mvoe the game clock with 'tick'
+			//only once each though!
+			// this.$store.dispatch('tick')
 		}
 	},
 	created: function() {

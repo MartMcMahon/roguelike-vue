@@ -1,15 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// import Home from './views/Home.vue';
-import About from './views/About.vue';
 
-
-import Home from './components/Home'
-// import Meetups from '@/components/Meetup/Meetups'
-// import CreateMeetup from '@/components/Meetup/CreateMeetups'
-import Profile from './components/User/Profile'
-
-import Board from './components/board/board'
+import Home from './components/Home.vue'
+import Profile from './components/User/Profile.vue'
+import Board from './components/board/board.vue'
 
 Vue.use(Router);
 
@@ -25,11 +19,11 @@ export default new Router({
       name: 'map',
       component: Board,
     },
-    {
-      path: '/about',
-      name: 'about',
-      component: About,
-    },
+    // {
+    //   path: '/about',
+    //   name: 'about',
+    //   component: About,
+    // },
     {
       path: '/profile',
       name: 'Profile',

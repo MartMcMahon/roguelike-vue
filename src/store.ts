@@ -5,11 +5,12 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
-		currentBoard: [],
+		currentBoard: [ [  ] ],
+
 		player: {
 			pos: [2, 1]
 		},
-		nearbyEnemies: [],
+		nearbyEnemies: [ {} ],
 		nearbyChunks: [
 			[],
 			[],
@@ -20,6 +21,9 @@ export const store = new Vuex.Store({
 		player(state) {
 			return state.player
 		},
+		enemies(state) {
+			return state.nearbyEnemies
+		}
 	},
 	mutations: {
 		addBoardToMap(state, board: {worldX: number, worldY: number}) {
@@ -33,13 +37,23 @@ export const store = new Vuex.Store({
 		movePlayer(state, vec) {
 			let x = state.player.pos[0] + vec[0]
 			let y = state.player.pos[1] + vec[1]
-			console.log(state.currentBoard[x][y].isOpen)
 			if (state.currentBoard[x][y].isOpen) {
 				state.player = {
 					...state.player,
 					pos: [x, y]
 				}
 			}
+		},
+		updateEnemies(state, newEnemy) {
+			let index = newEnemy.index
+			//this might also have to be replaced
+			state.nearbyEnemies[index] = newEnemy
+			// console.log(index)
 		}
-	}
+	},
+	actions: {
+		tick(context) {
+			context.commit('updateEnemies', {index: 1})
+		},
+	},
 })

@@ -23,12 +23,12 @@
 <script lang="ts">
 export default {
 	computed: {
-		player() {
-			return this.$store.state.player
-		},
-		msg() {
-			return this.$store.state.message
-		}
+		// player() {
+		// 	return this.$store.state.player
+		// },
+		// msg() {
+		// 	return this.$store.state.message
+		// }
 	},
 	props: ['tiles'],
   data () {

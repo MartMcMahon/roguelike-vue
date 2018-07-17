@@ -3,18 +3,29 @@
 		<DrawBoard :tiles="tiles">
 		</DrawBoard>
 		<DrawPlayer></DrawPlayer>
-		<ControllerLayer></ControllerLayer>
+		<EnemyManager></EnemyManager>
+		<ControllerLayer v-on:tick="nextRound()"></ControllerLayer>
 	</div>
 </template>
 
 <script>
+	import EnemyManager from '../mobs/enemyManager.vue'
 	import ControllerLayer from '../controller/controllerLayer.vue'
+
+	import{ bus } from '../bus/bus'
+
 	export default {
 		components: {
-			'ControllerLayer': ControllerLayer
+			'ControllerLayer': ControllerLayer,
+			'EnemyManager': EnemyManager,
 		},
 		created() {
 			this.$store.commit('defaultBoard', this.tiles)
+		},
+		methods: {
+			nextRound() {
+				console.log('test')
+			}
 		},
 		data() {
 			return {

@@ -56,10 +56,8 @@
 <script>
 
 export default {
-
-  
   components: {
-    
+
   },
   data () {
     return {
