@@ -69,6 +69,7 @@ export const store = new Vuex.Store({
 				//...and return promise so we know when to move gamestate forward
 				return context.commit('mutatePlayer', newPlayerObj)
 			}
+			return Promise.reject("can't move here")
 		}
 	},
 })
