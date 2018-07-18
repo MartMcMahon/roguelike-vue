@@ -16,30 +16,36 @@ export default {
 	methods: {
 		handleKeyUp(e) {
 			e.preventDefault()
+			let vec = []
 			switch (e.key) {
+				default: return;
+
 				case 'w':
 				case 'ArrowUp':
 					// move up
-					this.$store.commit('movePlayer', [0, -1])
+					vec = [0, -1]
 					break
 				case 's':
 				case 'ArrowDown':
 					//move down
-					this.$store.commit('movePlayer', [0, 1])
+					vec = [0, 1]
 					break
 				case 'a':
 				case 'ArrowLeft':
 					//move left
-					this.$store.commit('movePlayer', [-1, 0])
+					vec = [-1, 0]
 					break
 				case 'd':
 				case 'ArrowRight':
 					//move right
-					this.$store.commit('movePlayer', [1, 0])
+					vec = [1, 0]
 					break
-			}
 
-			bus.$emit('tick')
+			}
+			this.$store.dispatch('movePlayer', vec)
+				.then(this.$store.dispatch('tick'))
+
+			// bus.$emit('tick')
 
 			//not sure this line should really go here
 			//really want each thing that takes a round to mvoe the game clock with 'tick'

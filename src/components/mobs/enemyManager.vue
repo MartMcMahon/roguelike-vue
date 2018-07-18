@@ -20,6 +20,8 @@ export default {
 		bus.$on('tick', (e) => {
 			console.log('oookkkk')
 		})
+
+		console.log(this.$store.dispatch('testAction'))
 	},
 	data() {
 		return {
@@ -28,7 +30,7 @@ export default {
 	},
 	methods: {
 		addEnemy(enemy) {
-			this.$store.commit('updateEnemies', enemy)
+			this.$store.commit('addEnemy', enemy)
 		},
 		nextRound(event) {
 			console.log('next round')
