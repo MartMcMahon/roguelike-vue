@@ -20,6 +20,6 @@ export default {
 
 .enemy {
 	color: #ab0000;
-	position: relative;
+	position: inherit;
 }
 </style>

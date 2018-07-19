@@ -16,16 +16,53 @@ export default {
 	},
 	computed: mapGetters(['enemies']),
 	created() {
-		this.addEnemy(this.defaultEnemy)
-		bus.$on('tick', (e) => {
+		let e = this.defaultEnemy
+		this.addEnemy(e)
+		e = Object.assign({}, e); 
+		e.pos = [4, 6]
+		e.key++
+		this.addEnemy(e)
+		bus.$on('tick', (event) => {
 			console.log('oookkkk')
 		})
 
-		console.log(this.$store.dispatch('testAction'))
+		// console.log(this.$store.dispatch('testAction'))
 	},
 	data() {
 		return {
-		defaultEnemy: { index: 0, pos: [8, 1] }
+			defaultEnemy: {
+				key: 1, 
+				pos: [8, 1],
+				getCoordsStr() {
+					return this.pos[0] + ',' + this.pos[1]
+				},
+				move() {
+					let dir = Math.floor(Math.random() * 10) % 4
+					switch (dir) {
+						case 0:
+							this.pos[1]--
+							break
+						case 1:
+							this.pos[1]++
+							break
+						case 2:
+							this.pos[0]++
+							break
+						case 3:
+							this.pos[0]--
+							break
+					}
+					return Object.assign({}, this)
+				},
+				die() {
+					//drop loot
+					//add loot to map
+
+					//explode?
+					//trigger onDeath event
+					//trigger onKill event
+				},
+			}
 		}
 	},
 	methods: {
@@ -34,7 +71,7 @@ export default {
 		},
 		nextRound(event) {
 			console.log('next round')
-		}
+		},
 	},
 }
 

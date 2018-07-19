@@ -43,8 +43,10 @@ export default {
 
 			}
 			this.$store.dispatch('movePlayer', vec)
-				.then(this.$store.dispatch('tick'))
-				.catch(() => console.log('rejected'))
+				.then(
+					() => this.$store.dispatch('tick'),
+					() => console.log('rejected')
+				)
 
 			// bus.$emit('tick')
 
