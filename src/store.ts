@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import Enemy from './components/mobs/enemy'
+
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -12,7 +14,8 @@ export const store = new Vuex.Store({
 		},
 
 		//enemy objects
-		nearbyEnemies: {} as { [selector: number]: { pos: number[], key: number } },
+		// nearbyEnemies: {} as { [selector: number]: { pos: number[], key: number } },
+		nearbyEnemies: {} as { [selector: number]: Enemy },
 
 		//hashtable: keys are board positions as strings and values are enemy keys for quick lookup and collision testing
 		enemyLayer: {} as { [selector: string]: number },
@@ -67,7 +70,7 @@ export const store = new Vuex.Store({
 		defaultBoard(state, board) {
 			state.currentBoard = board
 		},
-		addEnemy(state, newEnemy: { pos: number[], key: number}) {
+		addEnemy(state, newEnemy: Enemy) {
 			//add to nearbyEnemies list
 			let key = newEnemy.key
 			state.nearbyEnemies[key] = newEnemy
@@ -90,10 +93,14 @@ export const store = new Vuex.Store({
 			context.commit('refreshEnemyList')
 		},
 		killEnemy(context, enemy) {
-			enemy.die().then(
-				() => context.commit('killEnemy', enemy),
-				() => console.log("can't kill this!")
-			)
+			enemy.die()
+			// .then(
+				//ok
+				context.commit('killEnemy', enemy)
+				context.commit('refreshEnemyList')
+					
+			// 	() => console.log("can't kill this!")
+			// )
 		},
 		movePlayer(context, vector) {
 			let shouldTick = false;
@@ -101,9 +108,13 @@ export const store = new Vuex.Store({
 			let y = context.state.player.pos[1] + vector[1]
 			if (context.state.currentBoard[x][y].isOpen) {
 				//check if open square we're moving into is occupied by an enemy...
-				if (context.state.enemyLayer[x + ',' + y] > 0) {
+				let key = context.state.enemyLayer[x + ',' + y]
+				if (key > 0) {
 					console.log("eyyyy, I'm walkin' here!")
-					return Promise.reject("can't move here")
+					context.dispatch('killEnemy', context.state.nearbyEnemies[key])
+						// .then(() => {
+							return Promise.reject("you killed her!")
+					// })
 				}
 				let newPlayerObj = {
 					...context.state.player,
