@@ -8,6 +8,9 @@
 import DrawEnemies from './drawEnemies'
 import { mapGetters } from 'vuex'
 
+import Enemy from './enemy'
+
+// event bus
 import { bus } from '../bus/bus'
 
 export default {
@@ -16,11 +19,16 @@ export default {
 	},
 	computed: mapGetters(['enemies']),
 	created() {
-		let e = this.defaultEnemy
+		// let e = this.defaultEnemy
+		let e = new Enemy()
+		// e.pos = [8, 1]
+		// e.key = 1
+		console.log(e)
 		this.addEnemy(e)
-		e = Object.assign({}, e); 
+		e = new Enemy()
 		e.pos = [4, 6]
 		e.key++
+		console.log(e)
 		this.addEnemy(e)
 		bus.$on('tick', (event) => {
 			console.log('oookkkk')

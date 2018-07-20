@@ -59,7 +59,7 @@ export default {
 	}
 
 	.tilemap-col {
-		display: flex;
+		display: -webkit-box;
 		flex-direction: column;
 	}
 

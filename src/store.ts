@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 import Enemy from './components/mobs/enemy'
 
+import { bus } from './components/bus/bus'
+
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -111,6 +113,8 @@ export const store = new Vuex.Store({
 				let key = context.state.enemyLayer[x + ',' + y]
 				if (key > 0) {
 					console.log("eyyyy, I'm walkin' here!")
+					let enemy = context.state.nearbyEnemies[key]
+					enemy.hit()
 					context.dispatch('killEnemy', context.state.nearbyEnemies[key])
 						// .then(() => {
 							return Promise.reject("you killed her!")

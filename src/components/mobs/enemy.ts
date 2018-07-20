@@ -1,10 +1,17 @@
+import { bus } from '../bus/bus'
+
 export default class Enemy {
 
 	key: number = 1
-	pos: number[] = [8, 1]
+	pos: number[] = [8, 2]
 
 	constructor() {
-		
+		bus.$on('enemyHit', (enemy: Enemy) => {
+			if (enemy === this) {
+				console.log('YA BIT')
+				console.log(enemy.key + ' got hit')
+			}
+		})
 	}
 
 	getCoordsStr() {
@@ -28,6 +35,11 @@ export default class Enemy {
 				break
 		}
 		return Object.assign({}, this)
+	}
+
+	hit() {
+		console.log('uhhhhh....')
+		bus.$emit('enemyHit', this)
 	}
 
 	die() {

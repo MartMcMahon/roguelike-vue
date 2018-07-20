@@ -1,5 +1,5 @@
 <template>
-	<div class="top-layer">
+	<div class="top-layer" v-bind:class="{ screenshake: screenIsShaking }">
 		<DrawBoard :tiles="tiles">
 		</DrawBoard>
 		<DrawPlayer></DrawPlayer>
@@ -12,7 +12,9 @@
 	import EnemyManager from '../mobs/enemyManager.vue'
 	import ControllerLayer from '../controller/controllerLayer.vue'
 
-	import{ bus } from '../bus/bus'
+	import { bus } from '../bus/bus'
+
+	import styles from '../effects/shakeAnimation.css'
 
 	export default {
 		components: {
@@ -21,14 +23,17 @@
 		},
 		created() {
 			this.$store.commit('defaultBoard', this.tiles)
+			bus.$on('enemyHit', this.shakeScreen)
 		},
 		methods: {
-			nextRound() {
-				console.log('test')
-			}
+			shakeScreen() {
+				this.screenIsShaking = true
+				setTimeout(() => this.screenIsShaking = false, 200)
+			},			
 		},
 		data() {
 			return {
+				screenIsShaking: false,
 				tiles: [
 					[
 						//0
