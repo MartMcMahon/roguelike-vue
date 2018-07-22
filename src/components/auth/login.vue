@@ -1,8 +1,6 @@
 <template>
 	<div class="login">
-		<input type="text" placeholder="email"><br>
-		<input type="password" placeholder="password"><br>
-		<button v-on:click="login">log in</button>
+		<button v-on:click="login">log in w/ google</button>
 		<button v-on:click="logout">log out</button>
 	</div>
 </template>
@@ -19,7 +17,7 @@
 			firebase.auth().getRedirectResult().then( (result) => {
 				if (result.credential) {
 					var token = result.credential.accessToken
-					console.log(token)
+					console.log(result)
 				}
 			})
 		},
@@ -30,7 +28,9 @@
 			},
 			logout() {
 				firebase.auth().signOut()
-				console.log('signed out')
+					.then(() => {
+						console.log('signed out')
+					})
 			}
 		}
 	}
@@ -47,7 +47,8 @@
 	}
 	button {
 		margin-top: 20px;
-		width: 10%;
+		width: 25%;
+		height: 15%;
 		cursor: pointer;
 	}
 </style>

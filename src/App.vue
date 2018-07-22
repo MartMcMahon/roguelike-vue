@@ -78,6 +78,9 @@ export default {
         { icon: 'lock_open',
           title: 'sign in',
           link: '/login' },
+        { icon: 'face',
+          title: 'logout',
+          link: '/logout' },
       ]
     }
   }

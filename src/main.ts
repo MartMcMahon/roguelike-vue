@@ -23,9 +23,14 @@ Vue.config.productionTip = false;
 Vue.component('DrawBoard', DrawBoard)
 Vue.component('DrawPlayer', DrawPlayer)
 
+let app: Vue
 firebase.initializeApp(config);
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount('#app');
+firebase.auth().onAuthStateChanged( (user) => {
+  if (!app) {
+    app = new Vue({
+      router,
+      store,
+      render: (h) => h(App),
+    }).$mount('#app');
+  }
+})
