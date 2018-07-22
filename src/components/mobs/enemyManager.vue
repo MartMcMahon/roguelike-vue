@@ -19,14 +19,25 @@ export default {
 	},
 	computed: mapGetters(['enemies']),
 	created() {
-		let e = new Enemy()
+		// enemies for debugging
+		let e = new Enemy(this)
+		e.pos = [2, 2]
 		console.log(e)
 		this.addEnemy(e)
-		e = new Enemy()
+		e = new Enemy(this)
 		e.pos = [4, 6]
 		e.key++
 		console.log(e)
 		this.addEnemy(e)
+
+		// listen to some events
+		bus.$on('boardReady', (event) => {
+			// init enemies
+			this.$store.getters.enemies().forEach(enemy => {
+				enemy.init()
+			})
+		})
+
 		bus.$on('tick', (event) => {
 			console.log('oookkkk')
 		})

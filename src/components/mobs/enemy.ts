@@ -1,17 +1,39 @@
-import { bus } from '../bus/bus'
+import { bus } from '@/components/bus/bus'
+
+import { Direction } from '@/types'
+import Vector from '@/types/vector'
 
 export default class Enemy {
 
-	key: number = 1
-	pos: number[] = [8, 2]
+	parent: Object
 
-	constructor() {
+	key: number = 1
+	pos: number[] = new Vector(8, 2)
+
+	openAdjacentTiles: Vector[] = []
+
+	constructor(parent: Object) {
 		bus.$on('enemyHit', (enemy: Enemy) => {
 			if (enemy === this) {
 				console.log('YA BIT')
 				console.log(enemy.key + ' got hit')
 			}
 		})
+
+		this.parent = parent
+	}
+
+	init() {
+		// can I see player?
+
+		// where can I move?
+		console.log(this.parent.$store)
+		console.log(this.parent.$store.getters.getOpenAdjacentTiles(this.pos))
+		
+
+		// what can I do?
+
+		// what do I want to do?
 	}
 
 	getCoordsStr() {
@@ -19,9 +41,10 @@ export default class Enemy {
 	}
 
 	move() {
+
 		let dir = Math.floor(Math.random() * 10) % 4
 		switch (dir) {
-			case 0:
+			case 0:				
 				this.pos[1]--
 				break
 			case 1:

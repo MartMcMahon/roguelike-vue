@@ -1,4 +1,4 @@
-import { bus } from '../bus/bus'
+import { bus } from '@/components/bus/bus'
 
 export default class Enemy {
 
