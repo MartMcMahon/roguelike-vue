@@ -77,7 +77,7 @@ export default {
           link: '/signup' },
         { icon: 'lock_open',
           title: 'sign in',
-          link: '/signin' },
+          link: '/login' },
       ]
     }
   }

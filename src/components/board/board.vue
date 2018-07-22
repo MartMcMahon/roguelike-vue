@@ -11,6 +11,7 @@
 <script>
 	import EnemyManager from '../mobs/enemyManager.vue'
 	import ControllerLayer from '../controller/controllerLayer.vue'
+	import BoardManager from './boardManager'
 
 	import { bus } from '../bus/bus'
 
@@ -22,6 +23,8 @@
 			'EnemyManager': EnemyManager,
 		},
 		created() {
+			console.log(this.boardManager.generateBoard())
+
 			this.$store.commit('defaultBoard', this.tiles)
 			bus.$on('enemyHit', this.shakeScreen)
 		},
@@ -29,10 +32,11 @@
 			shakeScreen() {
 				this.screenIsShaking = true
 				setTimeout(() => this.screenIsShaking = false, 200)
-			},			
+			},
 		},
 		data() {
 			return {
+				boardManager: new BoardManager(),
 				screenIsShaking: false,
 				tiles: [
 					[
