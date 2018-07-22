@@ -8,7 +8,7 @@ import {store} from '@/store'
 
 // firebase stuff
 import firebase from 'firebase'
-import { config } from './config/firebase'
+import { config } from '@/config/firebase'
 
 //components
 import DrawBoard from './components/board/drawBoard.vue'
