@@ -1,14 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import Enemy from './components/mobs/enemy'
+import Enemy from '@/components/mobs/enemy'
 
-import { bus } from './components/bus/bus'
+import { bus } from '@/components/bus/bus'
+
+import { Direction } from '@/types'
+import Vector from '@/types/vector'
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
+		boardManager: null,
 		currentBoard: [] as [ { isOpen: boolean } ][],
 
 		player: {
@@ -35,6 +39,30 @@ export const store = new Vuex.Store({
 		},
 		enemies(state) {
 			return state.nearbyEnemies
+		},
+
+		isTileOpen(state, pos) {
+			return state.boardManager.isTileOpen(pos)
+		},
+
+		getOpenAdjacentTiles(state, pos: Vector): Vector[] {
+			if (state.boardManager != null) {				
+				let result = [] as Vector[]
+				// look at adject tiles by adding the vector for n, s, e, w
+				let tilesToCheck = Vector.dirs.map( dir => Vector.add(pos, dir) )
+				
+				console.log(state.boardManager)
+				tilesToCheck.forEach(t => {
+					if (state.boardManager.isTileOpen(t)) {
+						result.push(t)
+					}
+				})
+				
+				return result
+			}
+			// boardManager is null
+			console.log('how tf did we even here?')
+			return []
 		}
 	},
 	mutations: {
@@ -48,8 +76,12 @@ export const store = new Vuex.Store({
 		refreshEnemyList(state) {
 			state.nearbyEnemies = Object.assign({}, state.nearbyEnemies)
 		},
-
-
+		boardManager(state, manager) {
+			state.boardManager = manager
+		},
+		setBoard(state, board) {
+			state.currentBoard = board
+		},
 
 		mutateEnemy(state, enemy) {
 			// state.enemyLayer[oldX + ',' + oldY] = 0
@@ -69,9 +101,6 @@ export const store = new Vuex.Store({
 			// create a new object to get reactivness to trigger
 			// state.worldMap[board.worldX][board.worldY] = board
 		},
-		defaultBoard(state, board) {
-			state.currentBoard = board
-		},
 		addEnemy(state, newEnemy: Enemy) {
 			//add to nearbyEnemies list
 			let key = newEnemy.key
@@ -83,6 +112,12 @@ export const store = new Vuex.Store({
 		},
 	},
 	actions: {
+		// handle baord stuff
+		setBoard(context, board) {
+			context.commit('setBoard', board)
+			bus.$emit('boardReady')
+		},
+
 		tick(context) {
 			console.log('moving enemies')
 			context.dispatch('moveEnemies')

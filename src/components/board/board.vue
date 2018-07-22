@@ -23,9 +23,12 @@
 			'EnemyManager': EnemyManager,
 		},
 		created() {
-			console.log(this.boardManager.generateBoard())
+			this.tiles = this.boardManager.generateBoard(10, 10)
+			this.$store.dispatch('setBoard', this.tiles)
+			this.$store.commit('boardManager', this.boardManager)
 
-			this.$store.commit('defaultBoard', this.tiles)
+			// register listeners
+			bus.$on('reset', () => console.log('resetting...'))
 			bus.$on('enemyHit', this.shakeScreen)
 		},
 		methods: {
@@ -38,187 +41,7 @@
 			return {
 				boardManager: new BoardManager(),
 				screenIsShaking: false,
-				tiles: [
-					[
-						//0
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-					],
-					[
-						//1
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						//2
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						//3
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						//4
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						//5
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						//6
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						//7
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						//8
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						{isOpen: false},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: true},
-						{isOpen: false},
-					],
-					[
-						//9
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-						{isOpen: false},
-					],
-				]
+				tiles: [],
 			}
 		}
 	}

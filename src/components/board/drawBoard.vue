@@ -15,12 +15,14 @@
 			v-bind:class="{ open: tile.isOpen, closed: !tile.isOpen }">
 		</div>
 	</div>
-	<v-btn style="z-index: 100" @click="changeMessage">click here</v-btn>
+	<v-btn style="z-index: 100" @click="reset">reset game</v-btn>
 	</div>
 </template>
 		
 
 <script lang="ts">
+import { bus } from '../bus/bus'
+
 export default {
 	computed: {
 		// player() {
@@ -42,10 +44,8 @@ export default {
     }
   },
 	methods: {
-		changeMessage(e) {
-			// this.board = e.target.value
-			// this.$store.commit('moveUp')
-			console.log(this.player.pos)
+		reset(e) {
+			bus.$emit('reset')
 		}
 	}
 }
