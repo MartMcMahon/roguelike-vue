@@ -10,6 +10,8 @@ import { mapGetters } from 'vuex'
 
 import Enemy from './enemy'
 
+import Vector from '@/types/vector'
+
 // event bus
 import { bus } from '../bus/bus'
 
@@ -20,22 +22,19 @@ export default {
 	computed: mapGetters(['enemies']),
 	created() {
 		// enemies for debugging
-		let e = new Enemy(this)
-		e.pos = [2, 2]
+		let e = new Enemy(this, new Vector(2, 2))
 		console.log(e)
 		this.addEnemy(e)
-		e = new Enemy(this)
-		e.pos = [4, 6]
+		e = new Enemy(this, new Vector(4, 6))
 		e.key++
 		console.log(e)
 		this.addEnemy(e)
 
 		// listen to some events
 		bus.$on('boardReady', (event) => {
+			console.log('got boardReady')
 			// init enemies
-			this.$store.getters.enemies().forEach(enemy => {
-				enemy.init()
-			})
+			this.initEnemies()
 		})
 
 		bus.$on('tick', (event) => {
@@ -50,6 +49,11 @@ export default {
 	methods: {
 		addEnemy(enemy) {
 			this.$store.commit('addEnemy', enemy)
+		},
+		initEnemies() {
+			this.enemies.forEach(enemy => {
+				enemy.init()
+			})
 		},
 		nextRound(event) {
 			console.log('next round')

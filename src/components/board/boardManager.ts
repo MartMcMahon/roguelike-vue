@@ -8,6 +8,8 @@ import Vector from '@/types/vector'
 
 export default class BoardManager {
 
+	tiles: Tile[][] = []
+
 	constructor() {}
 
 	generateBoard(height: number, width: number) {
@@ -23,141 +25,38 @@ export default class BoardManager {
 					result[x][y] = { isOpen: false }
 				}
 				else {
-					let r =  Math.floor(Math.random()*10) %2
-					console.log(r)
-
+					result[x][y] = { isOpen: true }
+					let r =  Math.floor(Math.random()*10) %4
 					if (r === 0) {
-						result[x][y] = { isOpen: true }
-					}
-					else {
 						result[x][y] = { isOpen: false }
 					}
 				}
 			}
 		}
 		
+		this.tiles = result
 		return result
 	}
 
-	defaultBoard() {
-		return [
-			[
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-			],
-			[
-				{isOpen: false},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: false},
-			],
-			[
-				{isOpen: false},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: false},
-			],
-			[
-				{isOpen: false},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: false},
-			],
-			[
-				{isOpen: false},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: false},
-			],
-			[
-				{isOpen: false},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: false},
-			],
-			[
-				{isOpen: false},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: false},
-			],
-			[
-				{isOpen: false},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: true},
-				{isOpen: false},
-			],
-			[
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-				{isOpen: false},
-			],
-		]
+	isTileOpen(pos: Vector): boolean {
+		console.log('idk. is it?')
+		console.log(pos)
+
+		let t = this.tiles[pos[0]][pos[1]]
+		return t.isOpen
 	}
 
-
-
-
-
-	isTileOpen(pos: number[]): boolean {
-		
-		return true
+	getOpenAdjacentTiles(pos: Vector): Vector[] {
+		let result = [] as Vector[]
+		// look at adject tiles by adding the vector for n, s, e, w
+		let tilesToCheck = Vector.dirs.map( dir => Vector.add(pos, dir) )
+		console.log(tilesToCheck)
+		tilesToCheck.forEach(t => {
+			if (this.isTileOpen(t)) {
+				result.push(t)
+			}
+		})
+			
+		return result
 	}
 }

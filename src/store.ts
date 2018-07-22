@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import Enemy from '@/components/mobs/enemy'
+import BoardManager from '@/components/board/boardManager'
 
 import { bus } from '@/components/bus/bus'
 
@@ -12,8 +13,8 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
-		boardManager: null,
-		currentBoard: [] as [ { isOpen: boolean } ][],
+		boardManager: new BoardManager(),
+		// currentBoard: [] as [ { isOpen: boolean } ][],
 
 		player: {
 			pos: [2, 1]
@@ -34,36 +35,15 @@ export const store = new Vuex.Store({
 		],
 	},
 	getters: {
+		boardManager(state) {
+			return state.boardManager
+		},
 		player(state) {
 			return state.player
 		},
 		enemies(state) {
 			return state.nearbyEnemies
 		},
-
-		isTileOpen(state, pos) {
-			return state.boardManager.isTileOpen(pos)
-		},
-
-		getOpenAdjacentTiles(state, pos: Vector): Vector[] {
-			if (state.boardManager != null) {				
-				let result = [] as Vector[]
-				// look at adject tiles by adding the vector for n, s, e, w
-				let tilesToCheck = Vector.dirs.map( dir => Vector.add(pos, dir) )
-				
-				console.log(state.boardManager)
-				tilesToCheck.forEach(t => {
-					if (state.boardManager.isTileOpen(t)) {
-						result.push(t)
-					}
-				})
-				
-				return result
-			}
-			// boardManager is null
-			console.log('how tf did we even here?')
-			return []
-		}
 	},
 	mutations: {
 		//vanilla setters
@@ -79,9 +59,9 @@ export const store = new Vuex.Store({
 		boardManager(state, manager) {
 			state.boardManager = manager
 		},
-		setBoard(state, board) {
-			state.currentBoard = board
-		},
+		// setBoard(state, board) {
+		// 	// state.boardmanager.tiles = board
+		// },
 
 		mutateEnemy(state, enemy) {
 			// state.enemyLayer[oldX + ',' + oldY] = 0
@@ -102,6 +82,7 @@ export const store = new Vuex.Store({
 			// state.worldMap[board.worldX][board.worldY] = board
 		},
 		addEnemy(state, newEnemy: Enemy) {
+			console.log('adding enemy to list')
 			//add to nearbyEnemies list
 			let key = newEnemy.key
 			state.nearbyEnemies[key] = newEnemy
@@ -114,7 +95,8 @@ export const store = new Vuex.Store({
 	actions: {
 		// handle baord stuff
 		setBoard(context, board) {
-			context.commit('setBoard', board)
+			// context.commit('setBoard', board)
+			console.log('emitting boardReady')
 			bus.$emit('boardReady')
 		},
 
@@ -143,7 +125,7 @@ export const store = new Vuex.Store({
 			let shouldTick = false;
 			let x = context.state.player.pos[0] + vector[0]
 			let y = context.state.player.pos[1] + vector[1]
-			if (context.state.currentBoard[x][y].isOpen) {
+			if (context.state.boardManager.tiles[x][y].isOpen) {
 				//check if open square we're moving into is occupied by an enemy...
 				let key = context.state.enemyLayer[x + ',' + y]
 				if (key > 0) {

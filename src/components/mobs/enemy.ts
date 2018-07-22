@@ -3,6 +3,8 @@ import { bus } from '@/components/bus/bus'
 import { Direction } from '@/types'
 import Vector from '@/types/vector'
 
+import BoardManager from '../board/boardManager'
+
 export default class Enemy {
 
 	parent: Object
@@ -12,7 +14,7 @@ export default class Enemy {
 
 	openAdjacentTiles: Vector[] = []
 
-	constructor(parent: Object) {
+	constructor(parent: BoardManager, pos: Vector) {
 		bus.$on('enemyHit', (enemy: Enemy) => {
 			if (enemy === this) {
 				console.log('YA BIT')
@@ -20,20 +22,28 @@ export default class Enemy {
 			}
 		})
 
+		this.pos = pos
 		this.parent = parent
+		// while (!bus.boardReady) {
+		// 	setTimeout(null, 200)
+		// 	console.log('checking...')
+		// }
+		this.init()
 	}
 
 	init() {
 		// can I see player?
 
 		// where can I move?
-		console.log(this.parent.$store)
-		console.log(this.parent.$store.getters.getOpenAdjacentTiles(this.pos))
+		this.lookAround()
 		
-
 		// what can I do?
 
 		// what do I want to do?
+	}
+
+	lookAround() {
+		this.openAdjacentTiles = this.parent.$store.getters.boardManager.getOpenAdjacentTiles(this.pos)
 	}
 
 	getCoordsStr() {
@@ -41,22 +51,11 @@ export default class Enemy {
 	}
 
 	move() {
-
-		let dir = Math.floor(Math.random() * 10) % 4
-		switch (dir) {
-			case 0:				
-				this.pos[1]--
-				break
-			case 1:
-				this.pos[1]++
-				break
-			case 2:
-				this.pos[0]++
-				break
-			case 3:
-				this.pos[0]--
-				break
-		}
+		let numPossibleTiles = this.openAdjacentTiles.length
+		let index = Math.floor(Math.random() * 10) % numPossibleTiles
+		this.pos = this.openAdjacentTiles[index]
+		this.lookAround()
+		
 		return Object.assign({}, this)
 	}
 

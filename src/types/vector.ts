@@ -18,6 +18,10 @@ export default class Vector extends Array {
 			this[0] = pos[0]
 			this[1] = pos[1]
 		}
+		else {
+			this[0] = x
+			this[1] = y
+		}
 	}
 
 	static add(a: Vector, b: Vector): Vector {

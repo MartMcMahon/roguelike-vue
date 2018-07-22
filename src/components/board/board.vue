@@ -13,6 +13,8 @@
 	import ControllerLayer from '../controller/controllerLayer.vue'
 	import BoardManager from './boardManager'
 
+	import { mapGetters } from 'vuex'
+
 	import { bus } from '../bus/bus'
 
 	import styles from '../effects/shakeAnimation.css'
@@ -22,14 +24,22 @@
 			'ControllerLayer': ControllerLayer,
 			'EnemyManager': EnemyManager,
 		},
+		computed: mapGetters({
+			boardManager: 'boardManager',
+		}),
 		created() {
-			this.tiles = this.boardManager.generateBoard(10, 10)
-			this.$store.dispatch('setBoard', this.tiles)
-			this.$store.commit('boardManager', this.boardManager)
-
+			// manage initializetion order here
 			// register listeners
+			bus.$on('boardReady', () => this.boardReady = true)
 			bus.$on('reset', () => console.log('resetting...'))
 			bus.$on('enemyHit', this.shakeScreen)
+			
+			this.$store.commit('boardManager', this.boardManager)
+
+			// generate the board
+			this.tiles = this.boardManager.generateBoard(10, 10)
+			console.log('board generated')
+			// this.$store.dispatch('setBoard', this.tiles)
 		},
 		methods: {
 			shakeScreen() {
@@ -39,7 +49,7 @@
 		},
 		data() {
 			return {
-				boardManager: new BoardManager(),
+				boardReady: false,
 				screenIsShaking: false,
 				tiles: [],
 			}
