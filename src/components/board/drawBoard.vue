@@ -18,6 +18,11 @@
 					full: !asciiMode,
 					ascii: asciiMode,
 				}">
+				
+				<TileImg 
+					v-if="!tile.isOpen && !asciiMode"
+					rect="rect(32px, 32px, 64px, 0px)"
+				/>
 				<div v-if="tile.isOpen && asciiMode">
 					.
 				</div>
@@ -44,7 +49,12 @@
 <script lang="ts">
 import { bus } from '@/bus'
 
+import TileImg from '../../assets/tileImg.vue'
+
 export default {
+	components: {
+		'TileImg': TileImg,
+	},
 	computed: {
 		asciiMode: {
 			get(): any {
@@ -65,6 +75,8 @@ export default {
 
 			width: 10,
 			height: 10,
+
+			// tileset: tileset,
     }
   },
 	methods: {
@@ -91,10 +103,9 @@ export default {
 	}
 
 	.tile.full {
-		border: black solid 2px;
-
-		width: 50px;
-		height: 50px;
+		overflow: hidden;
+		height: 32px;
+		width: 32px;
 	}
 
 	.closed.full {
@@ -110,9 +121,9 @@ export default {
 		color: white;
 
 		/* font-family: system-ui; */
-		font-size: 2em;
-		height: 50px;
-		width: 50px;
+		font-size: 16px;
+		height: 16px;
+		width: 16px;
 	}
 
 </style>

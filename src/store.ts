@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import Enemy from '@/components/mobs/enemy'
+import AssetManager from '@/assets/assetManager.vue'
 import BoardManager from '@/components/board/boardManager'
+import Enemy from '@/components/mobs/enemy'
 
 import { bus } from '@/bus'
 
@@ -13,6 +14,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
+		// assetManager: new AssetManager(),
 		boardManager: new BoardManager(),
 		// currentBoard: [] as [ { isOpen: boolean } ][],
 

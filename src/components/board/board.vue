@@ -4,14 +4,17 @@
 		</DrawBoard>
 		<DrawPlayer></DrawPlayer>
 		<EnemyManager></EnemyManager>
-		<ControllerLayer v-on:tick="nextRound()"></ControllerLayer>
+		<ControllerLayer v-on:tick="nextRound()"></ControllerLayer>l,
+		<div>
+			where's this div?
+		</div>
 	</div>
 </template>
 
 <script>
 	import EnemyManager from '../mobs/enemyManager.vue'
 	import ControllerLayer from '../controller/controllerLayer.vue'
-	import BoardManager from './boardManager'
+	import AssetManager from '../../assets/assetManager'
 
 	import { mapGetters } from 'vuex'
 
