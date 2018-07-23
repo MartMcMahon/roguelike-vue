@@ -19,6 +19,10 @@ import './styles/main.css'
 
 Vue.config.productionTip = false;
 
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+Vue.use(Vuetify)
+
 //globally define components
 Vue.component('DrawBoard', DrawBoard)
 Vue.component('DrawPlayer', DrawPlayer)

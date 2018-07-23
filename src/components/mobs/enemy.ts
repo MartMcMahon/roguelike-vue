@@ -7,7 +7,7 @@ import BoardManager from '../board/boardManager'
 
 export default class Enemy {
 
-	parent: Object
+	parent: any
 
 	key: number = 1
 	pos: number[] = new Vector(8, 2)
@@ -17,7 +17,6 @@ export default class Enemy {
 	constructor(parent: BoardManager, pos: Vector) {
 		bus.$on('enemyHit', (enemy: Enemy) => {
 			if (enemy === this) {
-				console.log('YA BIT')
 				console.log(enemy.key + ' got hit')
 			}
 		})

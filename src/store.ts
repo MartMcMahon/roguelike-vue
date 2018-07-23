@@ -28,6 +28,10 @@ export const store = new Vuex.Store({
 		enemyLayer: {} as { [selector: string]: number },
 		// enemyLayer: {} as { [selector: number]: { [selector: number]: number } },
 
+		renderInfo: {
+			asciiMode: true,
+		},
+
 		nearbyChunks: [
 			[],
 			[],
@@ -37,6 +41,9 @@ export const store = new Vuex.Store({
 	getters: {
 		boardManager(state) {
 			return state.boardManager
+		},
+		tiles(state) {
+			return state.boardManager.tiles
 		},
 		player(state) {
 			return state.player
@@ -90,6 +97,10 @@ export const store = new Vuex.Store({
 			//add to catalog of enemy keys listed by coordinates
 			state.enemyLayer[newEnemy.getCoordsStr()] = key
 			// state.enemyLayer[newEnemy.pos[0]][newEnemy.pos[1]] = key
+		},
+		asciiMode(state) {
+			state.renderInfo.asciiMode = !state.renderInfo.asciiMode
+			// state.renderInfo = Object.assign({}, state.renderInfo)
 		},
 	},
 	actions: {

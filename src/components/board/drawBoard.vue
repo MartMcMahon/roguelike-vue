@@ -8,14 +8,35 @@
 			v-for="col in tiles"
 			:key="col.index"
 		>
-		<div 
-			class="tile" 
-			v-for="tile in col"
-			:key="tile.index"
-			v-bind:class="{ open: tile.isOpen, closed: !tile.isOpen }">
+			<div 
+				class="tile" 
+				v-for="tile in col"
+				:key="tile.index"
+				v-bind:class="{ 
+					open: tile.isOpen, 
+					closed: !tile.isOpen,
+					full: !asciiMode,
+					ascii: asciiMode,
+				}">
+				<div v-if="tile.isOpen && asciiMode">
+					.
+				</div>
+				<div v-if="!tile.isOpen && asciiMode">
+					#
+				</div>
+			</div>
 		</div>
-	</div>
-	<v-btn style="z-index: 100" @click="reset">reset game</v-btn>
+		<v-app dark>
+			<v-container dark style="z-index: 100">
+			<v-btn @click="reset">reset game</v-btn>
+				<v-switch
+					dark
+					color="primary"
+					label="partymode" 
+					v-model="asciiMode"
+				></v-switch>
+			</v-container>
+		</v-app>
 	</div>
 </template>
 		
@@ -25,29 +46,35 @@ import { bus } from '@/bus'
 
 export default {
 	computed: {
-		// player() {
-		// 	return this.$store.state.player
-		// },
-		// msg() {
-		// 	return this.$store.state.message
-		// }
+		asciiMode: {
+			get(): any {
+				return this.$store.state.renderInfo.asciiMode
+			},
+			set(value: any) {
+				this.$store.commit('asciiMode', value)
+			},
+		},
 	},
 	props: ['tiles'],
   data () {
     return {
+			// asciiMode: true,
       isOpen: true,
 
 			board: '',
 
 			width: 10,
-			height: 10
+			height: 10,
     }
   },
 	methods: {
-		reset(e) {
+		reset() {
 			bus.$emit('reset')
-		}
-	}
+		},
+		switchAsciiMode() {
+			this.$store.commit('asciiMode')
+		},
+	},
 }
 </script>
 
@@ -63,19 +90,29 @@ export default {
 		flex-direction: column;
 	}
 
-	.tile {
+	.tile.full {
 		border: black solid 2px;
 
 		width: 50px;
 		height: 50px;
 	}
 
-	.closed {
+	.closed.full {
 		background-color: #660000;
 	}
 
-	.open {
+	.open.full {
 		background-color: #006600;
+	}
+
+	.ascii {
+		background-color: black;
+		color: white;
+
+		/* font-family: system-ui; */
+		font-size: 2em;
+		height: 40px;
+		width: 40px;
 	}
 
 </style>

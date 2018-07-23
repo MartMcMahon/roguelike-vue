@@ -26,6 +26,7 @@
 		},
 		computed: mapGetters({
 			boardManager: 'boardManager',
+			tiles: 'tiles'
 		}),
 		created() {
 			// manage initializetion order here
@@ -49,9 +50,8 @@
 		},
 		data() {
 			return {
-				boardReady: false,
+				// boardReady: false,
 				screenIsShaking: false,
-				tiles: [],
 			}
 		}
 	}
