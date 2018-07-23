@@ -111,8 +111,8 @@ export default {
 
 		/* font-family: system-ui; */
 		font-size: 2em;
-		height: 40px;
-		width: 40px;
+		height: 50px;
+		width: 50px;
 	}
 
 </style>

@@ -29,7 +29,7 @@ export const store = new Vuex.Store({
 		// enemyLayer: {} as { [selector: number]: { [selector: number]: number } },
 
 		renderInfo: {
-			asciiMode: true,
+			asciiMode: false,
 		},
 
 		nearbyChunks: [
