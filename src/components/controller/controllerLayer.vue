@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { bus } from '../bus/bus'
+import { bus } from '@/bus'
 
 export default {
 	computed: mapGetters({

@@ -1,6 +1,8 @@
 import { Tile } from '@/types'
 import Vector from '@/types/vector'
 
+import { bus } from '@/bus'
+
 /***
  * tile is an array of columns
  * each col is an arrow of single tiles, one per row
@@ -8,9 +10,15 @@ import Vector from '@/types/vector'
 
 export default class BoardManager {
 
+	height: number = 10
+	width: number = 10
 	tiles: Tile[][] = []
 
-	constructor() {}
+	constructor() {
+		bus.$on('reset', () => {
+			this.generateBoard(this.height, this.width)
+		})
+	}
 
 	generateBoard(height: number, width: number) {
 		console.log('making board')

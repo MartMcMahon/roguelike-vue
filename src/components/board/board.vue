@@ -15,7 +15,7 @@
 
 	import { mapGetters } from 'vuex'
 
-	import { bus } from '../bus/bus'
+	import { bus } from '@/bus'
 
 	import styles from '../effects/shakeAnimation.css'
 

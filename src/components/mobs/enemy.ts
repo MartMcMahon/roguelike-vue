@@ -1,4 +1,4 @@
-import { bus } from '@/components/bus/bus'
+import { bus } from '@/bus'
 
 import { Direction } from '@/types'
 import Vector from '@/types/vector'

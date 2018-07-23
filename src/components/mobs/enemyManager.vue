@@ -13,7 +13,7 @@ import Enemy from './enemy'
 import Vector from '@/types/vector'
 
 // event bus
-import { bus } from '../bus/bus'
+import { bus } from '@/bus'
 
 export default {
 	components: {

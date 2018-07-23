@@ -21,7 +21,7 @@
 		
 
 <script lang="ts">
-import { bus } from '../bus/bus'
+import { bus } from '@/bus'
 
 export default {
 	computed: {

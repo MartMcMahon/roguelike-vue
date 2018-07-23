@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import Enemy from '@/components/mobs/enemy'
 import BoardManager from '@/components/board/boardManager'
 
-import { bus } from '@/components/bus/bus'
+import { bus } from '@/bus'
 
 import { Direction } from '@/types'
 import Vector from '@/types/vector'
