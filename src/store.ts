@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import AssetManager from '@/assets/assetManager.vue'
+import AssetManager from '@/assets/assetManager'
 import BoardManager from '@/components/board/boardManager'
 import Enemy from '@/components/mobs/enemy'
 
@@ -14,7 +14,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
-		// assetManager: new AssetManager(),
+		assetManager: new AssetManager(),
 		boardManager: new BoardManager(),
 		// currentBoard: [] as [ { isOpen: boolean } ][],
 
@@ -41,6 +41,9 @@ export const store = new Vuex.Store({
 		],
 	},
 	getters: {
+		assetManager(state) {
+			return state.assetManager
+		},
 		boardManager(state) {
 			return state.boardManager
 		},
@@ -68,9 +71,9 @@ export const store = new Vuex.Store({
 		boardManager(state, manager) {
 			state.boardManager = manager
 		},
-		// setBoard(state, board) {
-		// 	// state.boardmanager.tiles = board
-		// },
+		setBoard(state, board) {
+			state.boardManager.tiles = board
+		},
 
 		mutateEnemy(state, enemy) {
 			// state.enemyLayer[oldX + ',' + oldY] = 0
@@ -108,9 +111,9 @@ export const store = new Vuex.Store({
 	actions: {
 		// handle baord stuff
 		setBoard(context, board) {
-			// context.commit('setBoard', board)
+			context.commit('setBoard', board)
 			console.log('emitting boardReady')
-			bus.$emit('boardReady')
+			// bus.$emit('boardReady')
 		},
 
 		tick(context) {

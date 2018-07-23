@@ -31,11 +31,11 @@ export default {
 		this.addEnemy(e)
 
 		// listen to some events
-		bus.$on('boardReady', (event) => {
-			console.log('got boardReady')
-			// init enemies
-			this.initEnemies()
-		})
+		// bus.$on('boardReady', (event) => {
+		// 	console.log('got boardReady')
+		// 	// init enemies
+		// 	this.initEnemies()
+		// })
 
 		bus.$on('tick', (event) => {
 			console.log('oookkkk')

@@ -20,8 +20,8 @@
 				}">
 				
 				<TileImg 
-					v-if="!tile.isOpen && !asciiMode"
-					rect="rect(32px, 32px, 64px, 0px)"
+					v-if="!asciiMode"
+					:boardTile="getBoardTile(tile)"
 				/>
 				<div v-if="tile.isOpen && asciiMode">
 					.
@@ -49,7 +49,10 @@
 <script lang="ts">
 import { bus } from '@/bus'
 
+import { Tile } from '@/types'
+
 import TileImg from '../../assets/tileImg.vue'
+import AssetManager from '@/assets/assetManager';
 
 export default {
 	components: {
@@ -69,6 +72,7 @@ export default {
   data () {
     return {
 			// asciiMode: true,
+
       isOpen: true,
 
 			board: '',
@@ -80,6 +84,12 @@ export default {
     }
   },
 	methods: {
+		getBoardTile(tile: Tile) {
+			if (tile.isOpen) {
+				return AssetManager.getFloorTile()
+			}
+			return AssetManager.getWallTile()
+		},
 		reset() {
 			bus.$emit('reset')
 		},

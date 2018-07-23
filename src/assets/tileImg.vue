@@ -6,18 +6,32 @@
 </template>
 
 <script lang="ts">
+import AssetManager from './assetManager'
+
 export default {
+	created() {
+		console.log(this.boardTile)
+	},
 	computed: {
 		style: function() {
-			console.log(this.rect.top)
-			return 'position: absolute; '//clip: rect(16px, 16px, 32px, 0px);'
-				+ 'clip: ' + this.rect + '; margin-top: -32px;'
-		}
+			return 'position: absolute; '
+				+ 'clip: ' + this.boardTile.rect + ';'
+				+ 'margin-left: -' + this.boardTile.xOffset + 'px;'
+				+ 'margin-top: -' + this.boardTile.yOffset + 'px;'
+		},
 	},
 	data() {
 		return {}
 	},
 	name: 'TileImg',
-	props: ['rect'],
+	props: ['boardTile'],
+}
+
+export interface TileImgData {
+	Xindex: number,
+	Yindex: number,
+
+	xOffset: number,
+	yOffset: number
 }
 </script>

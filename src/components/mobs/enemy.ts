@@ -3,7 +3,7 @@ import { bus } from '@/bus'
 import { Direction } from '@/types'
 import Vector from '@/types/vector'
 
-import BoardManager from '../board/boardManager'
+import BoardManager from '@/components/board/boardManager'
 
 export default class Enemy {
 
