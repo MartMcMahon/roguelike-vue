@@ -37,7 +37,7 @@
 				<v-switch
 					dark
 					color="primary"
-					label="partymode" 
+					label="asciiMode" 
 					v-model="asciiMode"
 				></v-switch>
 			</v-container>
@@ -131,9 +131,9 @@ export default {
 		color: white;
 
 		/* font-family: system-ui; */
-		font-size: 16px;
-		height: 16px;
-		width: 16px;
+		font-size: 30px;
+		height: 32px;
+		width: 32px;
 	}
 
 </style>
