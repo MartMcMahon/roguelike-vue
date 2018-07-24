@@ -13,11 +13,11 @@ import firebase from 'firebase'
 export default {
 	data() {
 		return {
-			user: ''
+			user: '',
 		}
 	},
 	created() {
 		this.user = firebase.auth().currentUser
-	}
+	},
 }
 </script>

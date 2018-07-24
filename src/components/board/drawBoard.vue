@@ -52,11 +52,11 @@ import { bus } from '@/bus'
 import { Tile } from '@/types'
 
 import TileImg from '../../assets/tileImg.vue'
-import AssetManager from '@/assets/assetManager';
+import AssetManager from '@/assets/assetManager'
 
 export default {
 	components: {
-		'TileImg': TileImg,
+		TileImg: TileImg,
 	},
 	computed: {
 		asciiMode: {
@@ -69,11 +69,11 @@ export default {
 		},
 	},
 	props: ['tiles'],
-  data () {
-    return {
+	data() {
+		return {
 			// asciiMode: true,
 
-      isOpen: true,
+			isOpen: true,
 
 			board: '',
 
@@ -81,8 +81,8 @@ export default {
 			height: 10,
 
 			// tileset: tileset,
-    }
-  },
+		}
+	},
 	methods: {
 		getBoardTile(tile: Tile) {
 			if (tile.isOpen) {

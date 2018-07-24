@@ -16,29 +16,29 @@
 </template>
 
 <script lang="ts">
-	import firebase from 'firebase'
-	
-	export default {
-		name: 'signup',
-		data() {
-			return {
-				email: '',
-				password: '',
-			}
-		},
-		methods: {
-			signUp() {
-				firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-					.then( (user) => {
-						alert('did it')
-					},
-					(err) => {
-						alert('whoops')
-						alert(err.message)
-					})
-			}
+import firebase from 'firebase'
+
+export default {
+	name: 'signup',
+	data() {
+		return {
+			email: '',
+			password: '',
 		}
-	}
+	},
+	methods: {
+		signUp() {
+			firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+				.then( (user) => {
+					alert('did it')
+				},
+				(err) => {
+					alert('whoops')
+					alert(err.message)
+				})
+		},
+	},
+}
 </script>
 
 <style scpoed>

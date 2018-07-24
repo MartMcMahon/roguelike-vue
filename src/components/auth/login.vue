@@ -6,34 +6,34 @@
 </template>
 
 <script lang="ts">
-	import firebase from 'firebase'
+import firebase from 'firebase'
 
-	export default {
-		name: 'login',
-		data() {
-			return {}
-		},
-		created() {
-			firebase.auth().getRedirectResult().then( (result) => {
-				if (result.credential) {
-					var token = result.credential.accessToken
-					console.log(result)
-				}
-			})
-		},
-		methods: {
-			login() {
-				let provider = new firebase.auth.GoogleAuthProvider()
-				firebase.auth().signInWithRedirect(provider)
-			},
-			logout() {
-				firebase.auth().signOut()
-					.then(() => {
-						console.log('signed out')
-					})
+export default {
+	name: 'login',
+	data() {
+		return {}
+	},
+	created() {
+		firebase.auth().getRedirectResult().then( (result) => {
+			if (result.credential) {
+				const token = result.credential.accessToken
+				// console.log(result)
 			}
-		}
-	}
+		})
+	},
+	methods: {
+		login() {
+			const provider = new firebase.auth.GoogleAuthProvider()
+			firebase.auth().signInWithRedirect(provider)
+		},
+		logout() {
+			firebase.auth().signOut()
+				.then(() => {
+					// console.log('signed out')
+				})
+		},
+	},
+}
 </script>
 
 <style scpoed>

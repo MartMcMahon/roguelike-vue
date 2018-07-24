@@ -10,7 +10,7 @@ import { bus } from '@/bus'
 import { Direction } from '@/types'
 import Vector from '@/types/vector'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export const store = new Vuex.Store({
 	state: {
@@ -19,14 +19,14 @@ export const store = new Vuex.Store({
 		// currentBoard: [] as [ { isOpen: boolean } ][],
 
 		player: {
-			pos: [2, 1]
+			pos: [2, 1],
 		},
 
-		//enemy objects
+		// enemy objects
 		// nearbyEnemies: {} as { [selector: number]: { pos: number[], key: number } },
 		nearbyEnemies: {} as { [selector: number]: Enemy },
 
-		//hashtable: keys are board positions as strings and values are enemy keys for quick lookup and collision testing
+		// hashtable: keys are board positions as strings and values are enemy keys for quick lookup and collision testing
 		enemyLayer: {} as { [selector: string]: number },
 		// enemyLayer: {} as { [selector: number]: { [selector: number]: number } },
 
@@ -58,12 +58,12 @@ export const store = new Vuex.Store({
 		},
 	},
 	mutations: {
-		//vanilla setters
+		// vanilla setters
 		mutateEnemyList(state, newEnemyList) {
-			state.nearbyEnemies = newEnemyList;
+			state.nearbyEnemies = newEnemyList
 		},
 		mutatePlayer(state, newPlayerObj) {
-			state.player = newPlayerObj;
+			state.player = newPlayerObj
 		},
 		refreshEnemyList(state) {
 			state.nearbyEnemies = Object.assign({}, state.nearbyEnemies)
@@ -89,17 +89,17 @@ export const store = new Vuex.Store({
 		},
 
 		addBoardToMap(state, board: {worldX: number, worldY: number}) {
-			//this probably won't work
+			// this probably won't work
 			// create a new object to get reactivness to trigger
 			// state.worldMap[board.worldX][board.worldY] = board
 		},
 		addEnemy(state, newEnemy: Enemy) {
 			console.log('adding enemy to list')
-			//add to nearbyEnemies list
-			let key = newEnemy.key
+			// add to nearbyEnemies list
+			const key = newEnemy.key
 			state.nearbyEnemies[key] = newEnemy
 
-			//add to catalog of enemy keys listed by coordinates
+			// add to catalog of enemy keys listed by coordinates
 			state.enemyLayer[newEnemy.getCoordsStr()] = key
 			// state.enemyLayer[newEnemy.pos[0]][newEnemy.pos[1]] = key
 		},
@@ -121,8 +121,8 @@ export const store = new Vuex.Store({
 			context.dispatch('moveEnemies')
 		},
 		moveEnemies(context) {
-			let enemyList = context.state.nearbyEnemies
-			Object.keys(enemyList).forEach(function (key) {
+			const enemyList = context.state.nearbyEnemies
+			Object.keys(enemyList).forEach((key) => {
 				context.commit('mutateEnemy', enemyList[key])
 			})
 			context.commit('refreshEnemyList')
@@ -130,38 +130,38 @@ export const store = new Vuex.Store({
 		killEnemy(context, enemy) {
 			enemy.die()
 			// .then(
-				//ok
-				context.commit('killEnemy', enemy)
-				context.commit('refreshEnemyList')
-					
+				// ok
+			context.commit('killEnemy', enemy)
+			context.commit('refreshEnemyList')
+
 			// 	() => console.log("can't kill this!")
 			// )
 		},
 		movePlayer(context, vector) {
-			let shouldTick = false;
-			let x = context.state.player.pos[0] + vector[0]
-			let y = context.state.player.pos[1] + vector[1]
+			const shouldTick = false
+			const x = context.state.player.pos[0] + vector[0]
+			const y = context.state.player.pos[1] + vector[1]
 			if (context.state.boardManager.tiles[x][y].isOpen) {
-				//check if open square we're moving into is occupied by an enemy...
-				let key = context.state.enemyLayer[x + ',' + y]
+				// check if open square we're moving into is occupied by an enemy...
+				const key = context.state.enemyLayer[x + ',' + y]
 				if (key > 0) {
-					console.log("eyyyy, I'm walkin' here!")
-					let enemy = context.state.nearbyEnemies[key]
+					console.log('eyyyy, I\'m walkin\' here!')
+					const enemy = context.state.nearbyEnemies[key]
 					enemy.hit()
 					context.dispatch('killEnemy', context.state.nearbyEnemies[key])
 						// .then(() => {
-							return Promise.reject("you killed her!")
+					return Promise.reject('you killed her!')
 					// })
 				}
-				let newPlayerObj = {
+				const newPlayerObj = {
 					...context.state.player,
-					pos: [x, y]
+					pos: [x, y],
 				}
-				//player can move, so mutate player...
-				//...and return promise so we know when to move gamestate forward
+				// player can move, so mutate player...
+				// ...and return promise so we know when to move gamestate forward
 				return context.commit('mutatePlayer', newPlayerObj)
 			}
-			return Promise.reject("can't move here")
-		}
+			return Promise.reject('can\'t move here')
+		},
 	},
 })

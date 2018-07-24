@@ -10,9 +10,9 @@ import { bus } from '@/bus'
 
 export default class BoardManager {
 
-	height: number = 10
-	width: number = 10
-	tiles: Tile[][] = []
+	public height: number = 10
+	public width: number = 10
+	public tiles: Tile[][] = []
 
 	constructor() {
 		bus.$on('reset', () => {
@@ -20,51 +20,50 @@ export default class BoardManager {
 		})
 	}
 
-	generateBoard(height: number, width: number) {
+	public generateBoard(height: number, width: number) {
 		console.log('making board')
-		let result = []
+		const result = []
 		for (let x = 0; x < width; x++) {
 			result[x] = [] as Tile[]
-			
+
 			// literal edge-cases
 			for (let y = 0; y < height; y++) {
-				if ( (x === 0) || (x === width-1)
-					|| (y === 0) || (y === height-1) ) {
+				if ( (x === 0) || (x === width - 1)
+					|| (y === 0) || (y === height - 1) ) {
 					result[x][y] = { isOpen: false }
-				}
-				else {
+				} else {
 					result[x][y] = { isOpen: true }
-					let r =  Math.floor(Math.random()*10) %4
+					const r =  Math.floor(Math.random() * 10) % 4
 					if (r === 0) {
 						result[x][y] = { isOpen: false }
 					}
 				}
 			}
 		}
-		
+
 		this.tiles = result
 		return result
 	}
 
-	isTileOpen(pos: Vector): boolean {
+	public isTileOpen(pos: Vector): boolean {
 		// console.log('idk. is it?')
 		// console.log(pos)
 
-		let t = this.tiles[pos[0]][pos[1]]
+		const t = this.tiles[pos[0]][pos[1]]
 		return t.isOpen
 	}
 
-	getOpenAdjacentTiles(pos: Vector): Vector[] {
-		let result = [] as Vector[]
+	public getOpenAdjacentTiles(pos: Vector): Vector[] {
+		const result = [] as Vector[]
 		// look at adject tiles by adding the vector for n, s, e, w
-		let tilesToCheck = Vector.dirs.map( dir => Vector.add(pos, dir) )
+		const tilesToCheck = Vector.dirs.map( (dir) => Vector.add(pos, dir) )
 		// console.log(tilesToCheck)
-		tilesToCheck.forEach(t => {
+		tilesToCheck.forEach((t) => {
 			if (this.isTileOpen(t)) {
 				result.push(t)
 			}
 		})
-			
+
 		return result
 	}
 }

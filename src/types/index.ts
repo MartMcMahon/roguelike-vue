@@ -6,7 +6,7 @@ export enum Direction {
 	up = 1,
 	right,
 	down,
-	left
+	left,
 }
 
 export const dir: {} = {

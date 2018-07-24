@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-	import firebase from 'firebase'
+import firebase from 'firebase'
 
-	export default {
-		created() {
-			firebase.auth().signOut()
-			console.log('signed out')
-		},
-	}
+export default {
+	created() {
+		firebase.auth().signOut()
+		console.log('signed out')
+	},
+}
 </script>
 
 <style scpoed>

@@ -19,17 +19,17 @@ export default {
 	methods: {
 		onClick() {
 			this.messaging.requestPermission()
-  	.then(() => {
-    	console.log('yesss')
-    	return this.messaging.getToken()
-  	})
-  	.then((token) => {
-			console.log(''+ token)
-	  })
-	  .catch((err) => {
-    	console.log('rude')
+		.then(() => {
+			console.log('yesss')
+			return this.messaging.getToken()
 		})
-		}
-	}
+		.then((token) => {
+			console.log('' + token)
+		})
+		.catch((err) => {
+			console.log('rude')
+		})
+		},
+	},
 }
 </script>

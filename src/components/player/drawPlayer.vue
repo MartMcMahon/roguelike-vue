@@ -10,18 +10,18 @@
 </template>
 
 <script lang="ts">
-	import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-	export default {
-		data () {
-			return {
-				// player: this.player
-			}
-		},
-		computed: mapGetters({
-			player: 'player'
-		}),
-	}
+export default {
+	data() {
+		return {
+			// player: this.player
+		}
+	},
+	computed: mapGetters({
+		player: 'player',
+	}),
+}
 </script>
 
 <style scoped>

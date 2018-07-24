@@ -12,9 +12,13 @@
     "quotemark": [true, "single"],
     "indent": [true, "tabs", 2],
     "interface-name": false,
+    "member-ordering": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
+    "no-empty": false,
     "no-consecutive-blank-lines": false,
+    "no-console": false,
+    "object-literal-shorthand": false,
     "semicolon": [true, "never"]
   }
 }

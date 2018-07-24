@@ -13,7 +13,7 @@ export default {
 		// console.log(this.boardTile)
 	},
 	computed: {
-		style: function() {
+		style: function(): string {
 			return 'position: absolute; '
 				+ 'clip: ' + this.boardTile.rect + ';'
 				+ 'margin-left: -' + this.boardTile.xOffset + 'px;'
