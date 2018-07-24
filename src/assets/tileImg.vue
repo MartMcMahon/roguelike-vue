@@ -10,7 +10,7 @@ import AssetManager from './assetManager'
 
 export default {
 	created() {
-		console.log(this.boardTile)
+		// console.log(this.boardTile)
 	},
 	computed: {
 		style: function() {

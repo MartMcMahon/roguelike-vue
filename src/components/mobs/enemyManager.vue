@@ -23,11 +23,11 @@ export default {
 	created() {
 		// enemies for debugging
 		let e = new Enemy(this, new Vector(2, 2))
-		console.log(e)
+		// console.log(e)
 		this.addEnemy(e)
 		e = new Enemy(this, new Vector(4, 6))
 		e.key++
-		console.log(e)
+		// console.log(e)
 		this.addEnemy(e)
 
 		// listen to some events

@@ -47,8 +47,8 @@ export default class BoardManager {
 	}
 
 	isTileOpen(pos: Vector): boolean {
-		console.log('idk. is it?')
-		console.log(pos)
+		// console.log('idk. is it?')
+		// console.log(pos)
 
 		let t = this.tiles[pos[0]][pos[1]]
 		return t.isOpen
@@ -58,7 +58,7 @@ export default class BoardManager {
 		let result = [] as Vector[]
 		// look at adject tiles by adding the vector for n, s, e, w
 		let tilesToCheck = Vector.dirs.map( dir => Vector.add(pos, dir) )
-		console.log(tilesToCheck)
+		// console.log(tilesToCheck)
 		tilesToCheck.forEach(t => {
 			if (this.isTileOpen(t)) {
 				result.push(t)
