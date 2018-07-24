@@ -30,11 +30,11 @@ export default {
 		signUp() {
 			firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
 				.then( (user) => {
-					alert('did it')
+					console.log('did it')
 				},
 				(err) => {
-					alert('whoops')
-					alert(err.message)
+					console.log('whoops')
+					console.log(err.message)
 				})
 		},
 	},

@@ -14,7 +14,7 @@ export default {
 		return {}
 	},
 	created() {
-		firebase.auth().getRedirectResult().then( (result) => {
+		firebase.auth().getRedirectResult().then( (result: any) => {
 			if (result.credential) {
 				const token = result.credential.accessToken
 				// console.log(result)
