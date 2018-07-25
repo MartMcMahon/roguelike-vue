@@ -27,17 +27,17 @@ export default {
 					break
 				case 's':
 				case 'ArrowDown':
-					//move down
+					// move down
 					vec = [0, 1]
 					break
 				case 'a':
 				case 'ArrowLeft':
-					//move left
+					// move left
 					vec = [-1, 0]
 					break
 				case 'd':
 				case 'ArrowRight':
-					//move right
+					// move right
 					vec = [1, 0]
 					break
 
@@ -45,14 +45,14 @@ export default {
 			this.$store.dispatch('movePlayer', vec)
 				.then(
 					() => this.$store.dispatch('tick'),
-					() => console.log('rejected')
+					() => console.log('rejected'),
 				)
 
 			// bus.$emit('tick')
 
-			//not sure this line should really go here
-			//really want each thing that takes a round to mvoe the game clock with 'tick'
-			//only once each though!
+			// not sure this line should really go here
+			// really want each thing that takes a round to mvoe the game clock with 'tick'
+			// only once each though!
 			// this.$store.dispatch('tick')
 		}
 	},

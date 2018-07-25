@@ -27,8 +27,8 @@
 			...mapGetters({
 			assetManager: 'assetManager',
 			boardManager: 'boardManager',
-			tiles: 'tiles'
-			})
+			tiles: 'tiles',
+			}),
 		},
 		created() {
 			// manage initializetion order here
@@ -36,7 +36,7 @@
 			// bus.$on('boardReady', () => this.boardReady = true)
 			bus.$on('reset', () => console.log('resetting...'))
 			bus.$on('enemyHit', this.shakeScreen)
-			
+
 			this.$store.commit('boardManager', this.boardManager)
 
 			// generate the board
