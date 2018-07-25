@@ -16,29 +16,30 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import firebase from 'firebase'
 
-export default {
-	name: 'signup',
-	data() {
-		return {
-			email: '',
-			password: '',
-		}
-	},
-	methods: {
-		signUp() {
-			firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-				.then( (user) => {
-					console.log('did it')
-				},
-				(err) => {
-					console.log('whoops')
-					console.log(err.message)
-				})
-		},
-	},
+@Component({
+	name: 'Signup'
+})
+export default class Signup extends Vue {
+
+	email: string
+	password: string
+
+	signUp() {
+		firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+			.then( (user) => {
+				console.log('did it')
+			},
+			(err) => {
+				console.log('whoops')
+				console.log(err.message)
+		})
+	}
 }
+
 </script>
 
 <style scpoed>

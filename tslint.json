@@ -19,6 +19,7 @@
     "no-consecutive-blank-lines": false,
     "no-console": false,
     "object-literal-shorthand": false,
-    "semicolon": [true, "never"]
+    "semicolon": [true, "ignore"],
+    "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "never"}]
   }
 }

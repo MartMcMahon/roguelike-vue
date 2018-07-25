@@ -63,7 +63,7 @@ export default {
 	components: {
 		'subscribe-button': SubscribeButton,
 	},
-	data () {
+	data() {
 		return {
 			sideNav: false,
 			menuItems: [
@@ -85,8 +85,8 @@ export default {
 				{ icon: 'face',
 					title: 'logout',
 					link: '/logout' },
-			]
+			],
 		}
-	}
+	},
 }
 </script>
