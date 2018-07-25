@@ -6,32 +6,33 @@
 </template>
 
 <script lang="ts">
-import AssetManager from './assetManager'
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Sprite } from './assetManager'
 
-export default {
-	created() {
-		// console.log(this.boardTile)
-	},
-	computed: {
-		style: function(): string {
-			return 'position: absolute; '
-				+ 'clip: ' + this.boardTile.rect + ';'
-				+ 'margin-left: -' + this.boardTile.xOffset + 'px;'
-				+ 'margin-top: -' + this.boardTile.yOffset + 'px;'
-		},
-	},
-	data() {
-		return {}
-	},
+const TileImgProps = Vue.extend({
+  props: {
+    boardTile: {} as () => Sprite
+  }
+})
+@Component({
 	name: 'TileImg',
-	props: ['boardTile'],
+})
+export default class TileImg extends TileImgProps {
+
+	initialStyle = this.boardTile
+
+	// computed
+	get style() {
+		return 'position: absolute; '
+			+ 'clip: ' + this.boardTile.rect + ';'
+			+ 'margin-left: -' + this.boardTile.xOffset + 'px;'
+			+ 'margin-top: -' + this.boardTile.yOffset + 'px;'
+	}
+
+	created() {
+		console.log(this.boardTile)
+	}
 }
 
-export interface TileImgData {
-	Xindex: number,
-	Yindex: number,
-
-	xOffset: number,
-	yOffset: number
-}
 </script>

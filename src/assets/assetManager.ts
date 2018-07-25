@@ -1,3 +1,9 @@
+export interface Sprite {
+	rect: string,
+	xOffset: number,
+	yOffset: number
+}
+
 export default class AssetManager {
 
 	public static tileRects = [] as Array<Array<{top: number, right: number, bottom: number, left: number}>>
