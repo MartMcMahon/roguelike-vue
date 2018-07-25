@@ -46,57 +46,52 @@
 </template>
 		
 
-<script lang="ts">
+<script lang='ts'>
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import { bus } from '@/bus'
-
 import { Tile } from '@/types'
-
 import TileImg from '../../assets/tileImg.vue'
 import AssetManager from '@/assets/assetManager'
 
-export default {
+const DrawBoardProps = Vue.extend({
+	props: {
+		tiles: []
+	}
+})
+
+@Component({
 	components: {
-		TileImg: TileImg,
+		TileImg
 	},
-	computed: {
-		asciiMode: {
-			get(): any {
-				return this.$store.state.renderInfo.asciiMode
-			},
-			set(value: any) {
-				this.$store.commit('asciiMode', value)
-			},
-		},
-	},
-	props: ['tiles'],
-	data() {
-		return {
-			// asciiMode: true,
+	// props: ['tiles'],
+})
+export default class DrawBoard extends Vue {
 
-			isOpen: true,
+	isOpen = true
+	board = []
+	width = 10
+	height = 10
 
-			board: '',
+	// computed
+	get asciiMode() {
+		return this.$store.state.renderInfo.asciiMode
+	}
 
-			width: 10,
-			height: 10,
-
-			// tileset: tileset,
+	getBoardTile(tile: Tile) {
+		if (tile.isOpen) {
+			return AssetManager.getFloorTile()
 		}
-	},
-	methods: {
-		getBoardTile(tile: Tile) {
-			if (tile.isOpen) {
-				return AssetManager.getFloorTile()
-			}
-			return AssetManager.getWallTile()
-		},
-		reset() {
-			bus.$emit('reset')
-		},
-		switchAsciiMode() {
-			this.$store.commit('asciiMode')
-		},
-	},
+		return AssetManager.getWallTile()
+	}
+
+	reset() {
+		bus.$emit('reset')
+	}
+
+	switchAsciiMode(value: boolean) {
+		this.$store.commit('asciiMode', value)
+	}
 }
 </script>
 

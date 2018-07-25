@@ -7,17 +7,20 @@
 	</div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import firebase from 'firebase'
 
-export default {
-	data() {
-		return {
-			user: '',
-		}
-	},
+@Component({
+	name: 'Profile'
+})
+export default class Profile extends Vue {
+
+	user: any = ''
+
 	created() {
 		this.user = firebase.auth().currentUser
-	},
+	}
 }
 </script>

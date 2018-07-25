@@ -25,8 +25,8 @@ import firebase from 'firebase'
 })
 export default class Signup extends Vue {
 
-	email: string
-	password: string
+	email: string = ''
+	password: string = ''
 
 	signUp() {
 		firebase.auth().createUserWithEmailAndPassword(this.email, this.password)

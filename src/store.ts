@@ -5,12 +5,17 @@ import AssetManager from '@/assets/assetManager'
 import BoardManager from '@/components/board/boardManager'
 import Enemy from '@/components/mobs/enemy'
 
-import { bus } from '@/bus'
+// import { bus } from '@/bus'
 
-import { Direction } from '@/types'
-import Vector from '@/types/vector'
+// import { Direction } from '@/types'
+// import Vector from '@/types/vector'
 
 Vue.use(Vuex)
+
+// export class store extends Vue {
+// 	@State('assetManager') new AssetManager()
+
+// }
 
 export const store = new Vuex.Store({
 	state: {
@@ -24,7 +29,7 @@ export const store = new Vuex.Store({
 
 		// enemy objects
 		// nearbyEnemies: {} as { [selector: number]: { pos: number[], key: number } },
-		nearbyEnemies: {} as { [selector: number]: Enemy },
+		nearbyEnemies: [] as Enemy[], // as { number: Enemy},
 
 		// hashtable: keys are board positions as strings and values are enemy keys for quick lookup and collision testing
 		enemyLayer: {} as { [selector: string]: number },
@@ -122,8 +127,12 @@ export const store = new Vuex.Store({
 		},
 		moveEnemies(context) {
 			const enemyList = context.state.nearbyEnemies
-			Object.keys(enemyList).forEach((key) => {
-				context.commit('mutateEnemy', enemyList[key])
+			console.log(Object.keys(enemyList))
+			// enemyList.map( (enemy: Enemy) => {
+			// 	context.commit('mutateEnemy', enemy)
+			// })
+			Object.keys(enemyList).forEach((enemy) => {
+				context.commit('mutateEnemy', enemy)//List[key])
 			})
 			context.commit('refreshEnemyList')
 		},
