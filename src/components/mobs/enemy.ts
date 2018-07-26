@@ -9,12 +9,16 @@ export default class Enemy {
 
 	public parent: any
 
-	public key: number = 1
+	public key: number = 0
 	public pos: number[] = new Vector(8, 2)
 
 	public openAdjacentTiles: Vector[] = []
 
-	constructor(parent: BoardManager, pos: Vector) {
+	static defaultEnemy() {
+		return new Enemy(null, new Vector(0, 0))
+	}
+
+	constructor(parent: BoardManager | null, pos: Vector) {
 		bus.$on('enemyHit', (enemy: Enemy) => {
 			if (enemy === this) {
 				console.log(enemy.key + ' got hit')
@@ -45,7 +49,7 @@ export default class Enemy {
 		this.openAdjacentTiles = this.parent.$store.getters.boardManager.getOpenAdjacentTiles(this.pos)
 	}
 
-	public getCoordsStr() {
+	public getCoordsStr(): string {
 		return this.pos[0] + ',' + this.pos[1]
 	}
 

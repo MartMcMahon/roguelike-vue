@@ -29,7 +29,7 @@ export const store = new Vuex.Store({
 
 		// enemy objects
 		// nearbyEnemies: {} as { [selector: number]: { pos: number[], key: number } },
-		nearbyEnemies: [] as Enemy[], // as { number: Enemy},
+		nearbyEnemies: {} as { [selector: number]: Enemy }, // as { number: Enemy},
 
 		// hashtable: keys are board positions as strings and values are enemy keys for quick lookup and collision testing
 		enemyLayer: {} as { [selector: string]: number },
@@ -85,6 +85,7 @@ export const store = new Vuex.Store({
 			delete state.enemyLayer[enemy.getCoordsStr()]
 
 			enemy.move()
+			console.log(enemy)
 			state.enemyLayer[enemy.getCoordsStr()] = enemy.key
 		},
 
@@ -100,6 +101,7 @@ export const store = new Vuex.Store({
 		},
 		addEnemy(state, newEnemy: Enemy) {
 			console.log('adding enemy to list')
+			console.log(state.nearbyEnemies)
 			// add to nearbyEnemies list
 			const key = newEnemy.key
 			state.nearbyEnemies[key] = newEnemy
@@ -130,9 +132,10 @@ export const store = new Vuex.Store({
 			console.log(Object.keys(enemyList))
 			// enemyList.map( (enemy: Enemy) => {
 			// 	context.commit('mutateEnemy', enemy)
-			// })
-			Object.keys(enemyList).forEach((enemy) => {
-				context.commit('mutateEnemy', enemy)//List[key])
+			// }
+			
+			Object.keys(enemyList).forEach((enemyKey: any) => {
+				context.commit( 'mutateEnemy', enemyList[enemyKey] )//List[key])
 			})
 			context.commit('refreshEnemyList')
 		},

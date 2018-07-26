@@ -31,7 +31,7 @@ export default class TileImg extends TileImgProps {
 	}
 
 	created() {
-		console.log(this.boardTile)
+		// console.log(this.boardTile)
 	}
 }
 

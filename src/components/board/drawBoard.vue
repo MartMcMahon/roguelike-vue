@@ -45,26 +45,17 @@
 	</div>
 </template>
 		
-
 <script lang='ts'>
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import { bus } from '@/bus'
 import { Tile } from '@/types'
 import TileImg from '../../assets/tileImg.vue'
 import AssetManager from '@/assets/assetManager'
 
-const DrawBoardProps = Vue.extend({
-	props: {
-		tiles: []
-	}
-})
-
 @Component({
 	components: {
 		TileImg
 	},
-	// props: ['tiles'],
 })
 export default class DrawBoard extends Vue {
 
@@ -72,10 +63,15 @@ export default class DrawBoard extends Vue {
 	board = []
 	width = 10
 	height = 10
+	
+	@Prop(Array) tiles: any
 
 	// computed
 	get asciiMode() {
 		return this.$store.state.renderInfo.asciiMode
+	}
+	set asciiMode(value: boolean) {
+		this.$store.commit('asciiMode', value)
 	}
 
 	getBoardTile(tile: Tile) {
