@@ -39,7 +39,7 @@ const router =  new Router({
 			name: 'map',
 			component: Board,
 			meta: {
-				requiresAuth: true,
+				// requiresAuth: true,
 			},
 		},
 		// {
