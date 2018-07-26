@@ -9,7 +9,7 @@ export default class Enemy {
 
 	public parent: any
 
-	public key: number = 0
+	public key: number = 1
 	public pos: number[] = new Vector(8, 2)
 
 	public openAdjacentTiles: Vector[] = []
