@@ -39,7 +39,7 @@ export default class DrawEnemies extends Vue {
 		return this.enemies
 	}
 	get asciiMode() {
-		return this.$store.state.asciiMode
+		return this.$store.state.renderInfo.asciiMode
 	}
 
 	getEnemyTile() {

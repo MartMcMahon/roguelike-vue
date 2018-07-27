@@ -16,7 +16,7 @@
 </template>
 
 <script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 // import { mapGetters } from 'vuex'
 import AssetManager from '../../assets/assetManager'
 import TileImg from '../../assets/tileImg.vue'
@@ -34,7 +34,7 @@ export default class DrawPlayer extends Vue {
 		return this.$store.state.player
 	}
 	get asciiMode() {
-		return this.$store.state.asciiMode
+		return this.$store.state.renderInfo.asciiMode
 	}
 
 	getPlayerTile() {
