@@ -25,7 +25,7 @@
 		},
 		computed: {
 			...mapGetters({
-			assetManager: 'assetManager',
+			// assetManager: 'assetManager',
 			boardManager: 'boardManager',
 			tiles: 'tiles',
 			}),

@@ -72,6 +72,12 @@ export const store = new Vuex.Store({
 		},
 		refreshEnemyList(state) {
 			state.nearbyEnemies = Object.assign({}, state.nearbyEnemies)
+			state.enemyLayer = {}
+			for (let keyString in state.nearbyEnemies) {
+				let key = parseInt(keyString, 10)
+				let enemy = state.nearbyEnemies[key]
+				state.enemyLayer[ enemy.getCoordsStr() ] = key
+			}
 		},
 		boardManager(state, manager) {
 			state.boardManager = manager
@@ -90,8 +96,16 @@ export const store = new Vuex.Store({
 		},
 
 		killEnemy(state, enemy) {
+			console.log(state.nearbyEnemies)
+			console.log(state.enemyLayer)
+			console.log('deleting nearbyEnemies[' + enemy.key + ']')
 			delete state.nearbyEnemies[enemy.key]
+			console.log(state.nearbyEnemies)
+			console.log(state.enemyLayer)
+			console.log('deleting enemyLayer[' + enemy.getCoordsStr() + ']')
 			delete state.enemyLayer[enemy.getCoordsStr()]
+			console.log(state.nearbyEnemies)
+			console.log(state.enemyLayer)
 		},
 
 		addBoardToMap(state, board: {worldX: number, worldY: number}) {
@@ -159,9 +173,9 @@ export const store = new Vuex.Store({
 				if (key > 0) {
 					console.log('eyyyy, I\'m walkin\' here!')
 					const enemy = context.state.nearbyEnemies[key]
+					console.log(context.state.nearbyEnemies)
 					enemy.hit()
 					context.dispatch('killEnemy', context.state.nearbyEnemies[key])
-						// .then(() => {
 					return Promise.reject('you killed her!')
 					// })
 				}

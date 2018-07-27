@@ -21,27 +21,16 @@ export default {
 	},
 	computed: mapGetters(['enemies']),
 	created() {
-		// enemies for debugging
-		let e = new Enemy(this, new Vector(2, 2))
-		// console.log(e)
-		this.addEnemy(e)
-		e = new Enemy(this, new Vector(4, 6))
-		e.key++
-		// console.log(e)
-		this.addEnemy(e)
-
-		// listen to some events
-		// bus.$on('boardReady', (event) => {
-		// 	console.log('got boardReady')
-		// 	// init enemies
-		// 	this.initEnemies()
-		// })
+		
+		this.addDebugEnemies()
 
 		bus.$on('tick', (event) => {
 			console.log('oookkkk')
 		})
 
-		// console.log(this.$store.dispatch('testAction'))
+		bus.$on('reset', () => {
+			this.addDebugEnemies()
+		})
 	},
 	data() {
 		return {}
@@ -49,6 +38,17 @@ export default {
 	methods: {
 		addEnemy(enemy) {
 			this.$store.commit('addEnemy', enemy)
+		},
+		addDebugEnemies() {
+			// enemies for debugging
+			let e = new Enemy(this, new Vector(2, 2))
+			// console.log(e)
+			this.addEnemy(e)
+
+			e = new Enemy(this, new Vector(4, 6))
+			e.key++
+			// console.log(e)
+			this.addEnemy(e)
 		},
 		initEnemies() {
 			this.enemies.forEach(enemy => {

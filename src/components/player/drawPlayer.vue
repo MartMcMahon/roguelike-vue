@@ -1,6 +1,12 @@
 <template>
 	<div class="game-layer">
+		<TileImg 
+			v-if="!asciiMode"
+			:boardTile="getPlayerTile()"
+			v-bind:style="{ top: player.pos[1]*32 + 'px', left: player.pos[0]*32 + 'px' }"
+		/>
 		<div 
+			v-if="asciiMode"
 			class="player"
 			v-bind:style="{ top: player.pos[1]*32 + 8 + 'px', left: player.pos[0]*32 + 8 + 'px' }">
 			@
@@ -9,23 +15,36 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { mapGetters } from 'vuex'
+<script lang='ts'>
+import { Component, Vue } from 'vue-property-decorator'
+// import { mapGetters } from 'vuex'
+import AssetManager from '../../assets/assetManager'
+import TileImg from '../../assets/tileImg.vue'
 
-export default {
-	data() {
-		return {
-			// player: this.player
-		}
+@Component({
+	components: {
+		TileImg
 	},
-	computed: mapGetters({
-		player: 'player',
-	}),
+	name: 'DrawPlayer'
+})
+export default class DrawPlayer extends Vue {
+
+	// computed
+	get  player() {
+		return this.$store.state.player
+	}
+	get asciiMode() {
+		return this.$store.state.asciiMode
+	}
+
+	getPlayerTile() {
+		return AssetManager.getPlayerTile()
+	}
+
 }
 </script>
 
 <style scoped>
-
 .player {
 	color: white;
 	position: relative;
