@@ -34,7 +34,7 @@
 						Welcome to App!
 					</v-list-tile-content>
 				</v-list-tile>
-
+				
 				<v-list-tile v-for="item in menuItems" :key="item.title"
 				router
 				:to="item.link">
@@ -45,9 +45,6 @@
 						{{ item.title }}
 					</v-list-tile-content>
 				</v-list-tile>
-				<v-list-tile>
-					<subscribe-button />
-				</v-list-tile>
 			</v-list>
 		</v-navigation-drawer>
 		<main>
@@ -57,11 +54,10 @@
 </template>
 
 <script>
-import SubscribeButton from './components/subscribeButton'
 
 export default {
 	components: {
-		'subscribe-button': SubscribeButton,
+		// 'subscribe-button': SubscribeButton,
 	},
 	data() {
 		return {

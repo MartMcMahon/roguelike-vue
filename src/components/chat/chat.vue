@@ -1,6 +1,6 @@
 <template>
 	<div class="chat-screen">
-		<div class="chattop">
+		<div class="chat-top">
 			<div class="dialog-box">
 				<div class="single-message">
 					msg1: Hi!
@@ -21,6 +21,7 @@
 				<v-app dark>
 					<v-container dark>
 						<v-btn @click="onSend">send</v-btn>
+						<SubscribeButton></SubscribeButton>
 					</v-container>
 				</v-app>
 			</div>
@@ -30,9 +31,15 @@
 		
 <script lang='ts'>
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import firebase from 'firebase'
 import { bus } from '@/bus'
 
+import SubscribeButton from '../subscribeButton.vue'
+
 @Component({
+	components: {
+		SubscribeButton
+	},
 	name: "chat",
 })
 export default class Chat extends Vue {
@@ -44,6 +51,8 @@ export default class Chat extends Vue {
 	set asciiMode(value: boolean) {
 		this.$store.commit('asciiMode', value)
 	}
+
+
 
 	onSend() {
 		bus.$emit('sendMessage', null)
