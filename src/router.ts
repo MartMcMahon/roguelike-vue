@@ -7,9 +7,10 @@ import Signup from './components/auth/signup.vue'
 import Logout from './components/auth/logout.vue'
 import firebase from 'firebase'
 
+import Board from './components/board/board.vue'
+import Chat from './components/chat/chat.vue'
 import Home from './components/Home.vue'
 import Profile from './components/User/Profile.vue'
-import Board from './components/board/board.vue'
 
 Vue.use(Router);
 
@@ -39,14 +40,17 @@ const router =  new Router({
 			name: 'map',
 			component: Board,
 			meta: {
-				// requiresAuth: true,
+				requiresAuth: true,
 			},
 		},
-		// {
-		//   path: '/about',
-		//   name: 'about',
-		//   component: About,
-		// },
+		{
+			path: '/chat',
+			name: 'chat',
+			component: Chat,
+			meta: {
+				requiresAuth: true,
+			},
+		},
 		{
 			path: '/profile',
 			name: 'Profile',
