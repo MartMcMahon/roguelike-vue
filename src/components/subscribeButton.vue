@@ -17,7 +17,8 @@ export default class SubscribeButton extends Vue {
 		
 	messaging = firebase.messaging()
 
-	mounted() {
+	created() {
+		this.messaging.usePublicVapidKey("BM47ty_fAI2_Kd0AH0gUy3KtbTs1AMkqozdNmCsMcIOZNpEafunPf7ozMO0tA41hiWqcPMEvIvJR914zvd17UYA")
 		this.messaging.onMessage( (payload) => {
 		console.log('onMessage')
 		} )
@@ -41,10 +42,6 @@ export default class SubscribeButton extends Vue {
 				firestore.collection('users').doc(uid).set({token: 'cool!'}, { merge: true })
 				console.log('rude')
 		})
-	}
-
-	created() {
-		console.log('hello darkness, my old friend')
 	}
 }
 </script>

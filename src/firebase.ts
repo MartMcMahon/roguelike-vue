@@ -3,7 +3,9 @@ import { config } from './config/firebase'
 
 export const firebaseApp = firebase.initializeApp(config)
 export const firestore = firebaseApp.firestore()
+firestore.settings({ timestampsInSnapshots: true })
 
+// firebase.messaging().
 export class GameUser {
 
 	uid: string = ''

@@ -29,7 +29,7 @@
 				<v-app dark>
 					<v-container dark>
 						<v-btn @click="onSend">send</v-btn>
-						<SubscribeButton></SubscribeButton>
+						<!-- <SubscribeButton></SubscribeButton> -->
 					</v-container>
 				</v-app>
 			</div>
@@ -43,11 +43,11 @@ import firebase from 'firebase'
 import { firestore } from '../../firebase'
 import { bus } from '@/bus'
 
-import SubscribeButton from '../subscribeButton.vue'
+// import SubscribeButton from '../subscribeButton.vue'
 
 @Component({
 	components: {
-		SubscribeButton
+		// SubscribeButton
 	},
 	name: "chat",
 })
