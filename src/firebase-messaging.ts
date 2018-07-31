@@ -1,6 +1,5 @@
 import firebase from 'firebase'
 
-
 const messaging = firebase.messaging()
 messaging.requestPermission()
 	.then(() => {
@@ -14,4 +13,8 @@ messaging.requestPermission()
 		console.log('rude')
 })
 
-export default messaging;
+messaging.onMessage( (payload) => {
+	console.log('onMessage')
+} )
+
+	export default messaging;

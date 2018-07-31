@@ -17,6 +17,12 @@ export default class SubscribeButton extends Vue {
 		
 	messaging = firebase.messaging()
 
+	mounted() {
+		this.messaging.onMessage( (payload) => {
+		console.log('onMessage')
+		} )
+	}
+
 	get user() {
 		return this.$store.state.user
 	}
