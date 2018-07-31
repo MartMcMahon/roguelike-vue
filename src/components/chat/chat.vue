@@ -2,6 +2,14 @@
 	<div class="chat-screen">
 		<div class="chat-top">
 			<div class="dialog-box">
+				<div 
+					class="single-message"
+					v-for="msg in messages"
+					:key="msg.id"
+				>
+					{{ msg.body }}
+				</div>
+
 				<div class="single-message">
 					msg1: Hi!
 				</div>
@@ -32,6 +40,7 @@
 <script lang='ts'>
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import firebase from 'firebase'
+import { firestore } from '../../firebase'
 import { bus } from '@/bus'
 
 import SubscribeButton from '../subscribeButton.vue'
@@ -44,6 +53,8 @@ import SubscribeButton from '../subscribeButton.vue'
 })
 export default class Chat extends Vue {
 
+	messages: {}[] = []
+
 	// computed
 	get asciiMode() {
 		return this.$store.state.renderInfo.asciiMode
@@ -52,11 +63,26 @@ export default class Chat extends Vue {
 		this.$store.commit('asciiMode', value)
 	}
 
+	created() {
+		// firestore.collection('messages').get().then(snapshot => {
+		// 	console.log(snapshot)
+		// })
 
+		firestore.collection('messages').onSnapshot( (snapshot) => {
+			let newMessages: {}[] = []
+			snapshot.forEach( (doc) => {
+				let localOnly = doc.metadata.hasPendingWrites
+				newMessages.push( { ...doc.data(), localOnly: localOnly })
+			})
+			this.messages = newMessages
+		})
+	}
 
 	onSend() {
 		bus.$emit('sendMessage', null)
 		console.log('send message')
+		firestore.collection('messages').add({ sender: firebase.auth() })
+		// console.log(this.firestore.ok)
 	}
 }
 </script>

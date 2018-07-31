@@ -5,6 +5,8 @@ import AssetManager from '@/assets/assetManager'
 import BoardManager from '@/components/board/boardManager'
 import Enemy from '@/components/mobs/enemy'
 
+import { GameUser } from './firebase'
+
 // import { bus } from '@/bus'
 
 // import { Direction } from '@/types'
@@ -21,6 +23,7 @@ export const store = new Vuex.Store({
 	state: {
 		assetManager: new AssetManager(),
 		boardManager: new BoardManager(),
+		user: {},
 		// currentBoard: [] as [ { isOpen: boolean } ][],
 
 		player: {
@@ -29,7 +32,7 @@ export const store = new Vuex.Store({
 
 		// enemy objects
 		// nearbyEnemies: {} as { [selector: number]: { pos: number[], key: number } },
-		nearbyEnemies: {} as { [selector: number]: Enemy }, // as { number: Enemy},
+		nearbyEnemies: [] as Enemy[], //{} as { [selector: number]: Enemy }, // as { number: Enemy},
 
 		// hashtable: keys are board positions as strings and values are enemy keys for quick lookup and collision testing
 		enemyLayer: {} as { [selector: string]: number },
@@ -61,6 +64,10 @@ export const store = new Vuex.Store({
 		enemies(state) {
 			return state.nearbyEnemies
 		},
+
+		user(state) {
+			return state.user
+		}
 	},
 	mutations: {
 		// vanilla setters
@@ -69,6 +76,12 @@ export const store = new Vuex.Store({
 		},
 		mutatePlayer(state, newPlayerObj) {
 			state.player = newPlayerObj
+		},
+		boardManager(state, manager) {
+			state.boardManager = manager
+		},
+		setBoard(state, board) {
+			state.boardManager.tiles = board
 		},
 		refreshEnemyList(state) {
 			state.nearbyEnemies = Object.assign({}, state.nearbyEnemies)
@@ -79,13 +92,11 @@ export const store = new Vuex.Store({
 				state.enemyLayer[ enemy.getCoordsStr() ] = key
 			}
 		},
-		boardManager(state, manager) {
-			state.boardManager = manager
-		},
-		setBoard(state, board) {
-			state.boardManager.tiles = board
+		initUser(state, user) {
+			state.user = user
 		},
 
+		// strawberry (not vanilla)
 		mutateEnemy(state, enemy) {
 			// state.enemyLayer[oldX + ',' + oldY] = 0
 			delete state.enemyLayer[enemy.getCoordsStr()]
@@ -116,13 +127,18 @@ export const store = new Vuex.Store({
 		addEnemy(state, newEnemy: Enemy) {
 			console.log('adding enemy to list')
 			console.log(state.nearbyEnemies)
+
+			// get correct index
+			if (newEnemy.key === 0) {
+				newEnemy.key = Object.keys(state.nearbyEnemies).length +1
+			}
+
 			// add to nearbyEnemies list
-			const key = newEnemy.key
-			state.nearbyEnemies[key] = newEnemy
+			// state.nearbyEnemies[newEnemy.key] = newEnemy
+			state.nearbyEnemies.push(newEnemy)
 
 			// add to catalog of enemy keys listed by coordinates
-			state.enemyLayer[newEnemy.getCoordsStr()] = key
-			// state.enemyLayer[newEnemy.pos[0]][newEnemy.pos[1]] = key
+			state.enemyLayer[newEnemy.getCoordsStr()] = newEnemy.key
 		},
 		asciiMode(state) {
 			state.renderInfo.asciiMode = !state.renderInfo.asciiMode
@@ -130,6 +146,13 @@ export const store = new Vuex.Store({
 		},
 	},
 	actions: {
+		// user actions
+		// initUser(context, firebaseUser) {
+		// 	console.log('type: ' )
+		// 	console.log(typeof firebaseUser)
+		// 	context.state.user.initUser(firebaseUser)
+		// },
+
 		// handle baord stuff
 		setBoard(context, board) {
 			context.commit('setBoard', board)

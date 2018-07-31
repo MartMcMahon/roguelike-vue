@@ -54,13 +54,27 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 
 export default {
+	created() {
+		let user = firebase.auth().currentUser
+			console.log('helloooooooo')
+			console.log(user)
+		if (user != null) {
+			console.log('commiting')
+			this.$store.commit('initUser', user)
+		}
+		else {
+			console.log('not logged in;')
+		}
+	},
 	components: {
 		// 'subscribe-button': SubscribeButton,
 	},
 	data() {
 		return {
+			user: null,
 			sideNav: false,
 			menuItems: [
 				{ icon: 'room',

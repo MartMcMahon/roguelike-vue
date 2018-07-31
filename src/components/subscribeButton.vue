@@ -8,6 +8,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import firebase from 'firebase'
+import { firestore } from '../firebase'
 
 @Component({
 	name: 'SubscribeButton'
@@ -15,6 +16,10 @@ import firebase from 'firebase'
 export default class SubscribeButton extends Vue {
 		
 	messaging = firebase.messaging()
+
+	get user() {
+		return this.$store.state.user
+	}
 
 	onClick() {
 		this.messaging.requestPermission()
@@ -26,6 +31,8 @@ export default class SubscribeButton extends Vue {
 				console.log('' + token)
 			})
 			.catch((err) => {
+				let uid = this.user.uid
+				firestore.collection('users').doc(uid).set({token: 'cool!'}, { merge: true })
 				console.log('rude')
 		})
 	}
