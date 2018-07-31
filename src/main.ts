@@ -28,7 +28,6 @@ Vue.component('DrawBoard', DrawBoard)
 Vue.component('DrawPlayer', DrawPlayer)
 
 let app: Vue
-firebase.initializeApp(config)
 firebase.auth().onAuthStateChanged( (user) => {
 	if (!app) {
 		app = new Vue({
