@@ -84,6 +84,7 @@ export default class Chat extends Vue {
 		firestore.collection('messages').add({ sender: firebase.auth() })
 		// console.log(this.firestore.ok)
 	}
+	
 }
 </script>
 

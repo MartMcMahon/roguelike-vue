@@ -38,6 +38,7 @@ export default class SubscribeButton extends Vue {
     					// User hasn't granted permission.
   					} else {
     					// We have token to send to backend
+							firestore.collection('users').doc(this.user.uid).collection('notificationTokens').add({ value: token })
   					}
 				})
 				.catch((err) => {
