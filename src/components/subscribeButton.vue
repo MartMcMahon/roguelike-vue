@@ -20,7 +20,8 @@ export default class SubscribeButton extends Vue {
 	created() {
 		this.messaging.usePublicVapidKey("BM47ty_fAI2_Kd0AH0gUy3KtbTs1AMkqozdNmCsMcIOZNpEafunPf7ozMO0tA41hiWqcPMEvIvJR914zvd17UYA")
 		this.messaging.onMessage( (payload) => {
-		console.log('onMessage')
+			console.log('onMessage')
+			console.log(payload)
 		} )
 	}
 
@@ -38,7 +39,10 @@ export default class SubscribeButton extends Vue {
     					// User hasn't granted permission.
   					} else {
     					// We have token to send to backend
-							firestore.collection('users').doc(this.user.uid).collection('notificationTokens').add({ value: token })
+							console.log('writing token to firestore')
+							firestore.collection('users').doc(this.user.uid).collection('notificationTokens').add({ value: token }).then(() => {
+								console.log('done')
+							})
   					}
 				})
 				.catch((err) => {
