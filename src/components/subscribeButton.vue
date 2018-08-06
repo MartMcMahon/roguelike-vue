@@ -79,7 +79,7 @@ export default class SubscribeButton extends Vue {
 							let res = data.notificationTokensArray
 							if ("Test Token" in res) {
 								console.log(res)
-								return null
+								return res
 							}
 							else {
 								res.push("Test Token")
