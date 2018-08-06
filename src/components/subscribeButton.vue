@@ -40,13 +40,74 @@ export default class SubscribeButton extends Vue {
   					} else {
     					// We have token to send to backend
 							console.log('writing token to firestore')
-							firestore.collection('users').doc(this.user.uid).collection('notificationTokens').add({ value: token }).then(() => {
-								console.log('done')
+							const userDoc = firestore.collection('users').doc(this.user.uid)
+							userDoc.get().then( (doc) => {
+								let data = doc.data()
+								// make sure data for this user exists
+								if (data && data.notificationTokensArray) {
+									let res = data.notificationTokensArray
+									// if this token is already listed, return null and do nothing
+									if (token in res) {
+										console.log(res)
+										return null
+									}
+									// if this is a new token, write that shit to the array
+									else {
+										res.push(token)
+										return res
+									}
+								}
+								// array gets returned from last one only if we add to it.
+								// this then sets the new array to firestore
+							}).then( (res) => {
+								if (res != null) {
+									userDoc.set({ notificationTokensArray: res })
+								}
 							})
   					}
 				})
+				// if we can't get a token, we are probs running locally
 				.catch((err) => {
 					// Use err to check if blocked.
+					console.log('couldn\'t get token. You\'re probably running in dev mode.')
+					console.log('using "Test Token" ')
+
+					const userDoc = firestore.collection('users').doc(this.user.uid)
+					userDoc.get().then( (doc) => {
+						let data = doc.data()
+						if (data && data.notificationTokensArray) {
+							let res = data.notificationTokensArray
+							if ("Test Token" in res) {
+								console.log(res)
+								return null
+							}
+							else {
+								res.push("Test Token")
+								return res
+							}
+						}
+					})
+					.then( (res) => {
+						if (res != null) {
+							userDoc.set({ notificationTokensArray: res })
+						}
+					})
+
+					/** object token field
+					firestore.collection('users').doc(this.user.uid).get().then( (doc) => {
+						let data = doc.data()
+						if (data) {
+							let res = {...data.notificationTokens, "Test Token": "Sunday" }
+							console.log(res)
+							return res
+						}
+					}).then( (newTokens) => {
+						firestore.collection('users').doc(this.user.uid).set({
+							notificationTokens: newTokens
+						}, { merge: true })
+					})
+
+					**/
 				})
 		})
 	}

@@ -23,6 +23,7 @@
 				<input 
 					type="text"
 					placeholder="message"
+					v-model="msgBody"
 				/>
 			</div>
 			<div class="send-buttom">
@@ -55,6 +56,8 @@ export default class Chat extends Vue {
 
 	messages: {}[] = []
 
+	msgBody: string = ''
+
 	// computed
 	get asciiMode() {
 		return this.$store.state.renderInfo.asciiMode
@@ -80,8 +83,9 @@ export default class Chat extends Vue {
 
 	onSend() {
 		bus.$emit('sendMessage', null)
+		console.log(firebase.auth().currentUser)
 		console.log('send message')
-		firestore.collection('messages').add({ sender: firebase.auth() })
+		firestore.collection('messages').doc().set({ sender: 'me', body: this.msgBody })
 		// console.log(this.firestore.ok)
 	}
 	

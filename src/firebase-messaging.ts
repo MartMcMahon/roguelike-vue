@@ -13,8 +13,8 @@ messaging.requestPermission()
 		console.log('rude')
 })
 
-messaging.onMessage( (payload) => {
-	console.log('onMessage')
-} )
+// messaging.onMessage( (payload) => {
+// 	console.log('onMessage: ', payload)
+// } )
 
 	export default messaging;
