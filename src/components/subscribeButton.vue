@@ -38,7 +38,21 @@ export default class SubscribeButton extends Vue {
   					if (token === null) {
     					// User hasn't granted permission.
   					} else {
-    					// We have token to send to backend
+							// We have token to send to backend
+							firestore.collection('users').doc(this.user.uid).collection('notificationTokens').add({ value: token }).then(() => {
+								console.log('done')
+							})
+						}
+					})
+					.catch( (err) => {
+						console.log( 'error' )
+					})
+			})
+	}
+}
+
+
+							/*
 							console.log('writing token to firestore')
 							const userDoc = firestore.collection('users').doc(this.user.uid)
 							userDoc.get().then( (doc) => {
@@ -49,7 +63,7 @@ export default class SubscribeButton extends Vue {
 									// if this token is already listed, return null and do nothing
 									if (token in res) {
 										console.log(res)
-										return null
+										return res
 									}
 									// if this is a new token, write that shit to the array
 									else {
@@ -108,9 +122,9 @@ export default class SubscribeButton extends Vue {
 					})
 
 					**/
-				})
-		})
-	}
-}
+// 				})
+// 		})
+// 	}
+// }
 
 </script>
