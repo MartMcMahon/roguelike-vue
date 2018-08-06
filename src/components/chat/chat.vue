@@ -83,7 +83,7 @@ export default class Chat extends Vue {
 
 	onSend() {
 		bus.$emit('sendMessage', null)
-		console.log(firebase.auth().currentUser)
+		// console.log(firebase.auth().currentUser)
 		console.log('send message')
 		firestore.collection('messages').doc().set({ sender: 'me', body: this.msgBody })
 		// console.log(this.firestore.ok)

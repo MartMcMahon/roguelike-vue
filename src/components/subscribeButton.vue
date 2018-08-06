@@ -23,6 +23,8 @@ export default class SubscribeButton extends Vue {
 		// 	console.log('onMessage')
 		// 	console.log(payload)
 		// } )
+		console.log('subscribeButton created')
+		console.log(this.messaging)
 	}
 
 	get user() {
