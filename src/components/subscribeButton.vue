@@ -19,12 +19,22 @@ export default class SubscribeButton extends Vue {
 
 	created() {
 		this.messaging.usePublicVapidKey("BM47ty_fAI2_Kd0AH0gUy3KtbTs1AMkqozdNmCsMcIOZNpEafunPf7ozMO0tA41hiWqcPMEvIvJR914zvd17UYA")
-		// this.messaging.onMessage( (payload) => {
-		// 	console.log('onMessage')
-		// 	console.log(payload)
-		// } )
-		console.log('subscribeButton created')
-		console.log(this.messaging)
+
+		this.messaging.onTokenRefresh( () => {
+			this.messaging.getToken().then( (refreshedToken) => {
+				if (refreshedToken) {
+					console.log('Token refreshed')
+					this.sendTokenToServer(refreshedToken)
+				}
+			})
+			.catch( (err: any) => {
+				console.log('can\'t get refreshed token')
+			})
+		})
+	}
+
+	sendTokenToServer(token: string) {
+		console.log('sending token to server')
 	}
 
 	get user() {
@@ -37,7 +47,7 @@ export default class SubscribeButton extends Vue {
 				this.messaging.getToken()
 					.then( (token) => {
 						console.log(token)
-  					if (token === null) {
+  					if (token) {
     					// User hasn't granted permission.
   					} else {
 							// // We have token to send to backend
@@ -47,10 +57,12 @@ export default class SubscribeButton extends Vue {
 						}
 					})
 					.catch( (err) => {
-						console.log( 'error' )
+						console.log( err )
 					})
 			})
 	}
+
+
 }
 
 
