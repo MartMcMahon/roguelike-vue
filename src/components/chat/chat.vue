@@ -7,7 +7,7 @@
 					v-for="msg in messages"
 					:key="msg.id"
 				>
-					{{ msg.body }}
+					{{msg.sender}}: {{ msg.body }}
 				</div>
 
 				<div class="single-message">
@@ -54,8 +54,8 @@ import SubscribeButton from '../subscribeButton.vue'
 })
 export default class Chat extends Vue {
 
+	user = firebase.auth().currentUser
 	messages: {}[] = []
-
 	msgBody: string = ''
 
 	// computed
@@ -82,11 +82,14 @@ export default class Chat extends Vue {
 	}
 
 	onSend() {
+		let niceName = 'me'
+		if (!!this.user && this.user.displayName) {
+			niceName = this.user.displayName
+		}
 		bus.$emit('sendMessage', null)
 		// console.log(firebase.auth().currentUser)
 		console.log('send message')
-		firestore.collection('messages').doc().set({ sender: 'me', body: this.msgBody })
-		// console.log(this.firestore.ok)
+		firestore.collection('messages').doc('' + Date.now()).set({  sender: niceName, body: this.msgBody })
 	}
 	
 }
