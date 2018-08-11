@@ -13,27 +13,64 @@ const buildPayload = (context) => {
 		data: {
 			data_type: "direct_message",
 			title: "New Message: " + context.params.msgId,
-			message: context.params.msgBody,
-			message_id: 'ok'
-		}
+			message: "heyyyyyyy",//context.params.body,
+			message_id: "ok"
+		},
+		notification: {
+			"title": "there was a message!",
+			"body": "somebody said a thing!", //context.params.body,
+			// "click_action" : "https://dummypage.com"
+		},
+		// "to" : "eEz-Q2sG8nQ:APA91bHJQRT0JJ..."
 	}
 }
 
 exports.sendMessageNotification = functions.firestore.document('messages/{msgId}')
 	.onWrite( (change, context) => {
-		console.log(change)
+		// console.log(change)
 		console.log(context)
 
 		const payload = buildPayload(context)
+		const promises = []
+
+		db.collection('users').get().then( usersSnapshot => {
+			usersSnapshot.forEach(userDoc => {
+				const fcmToken = userDoc.get('fcmToken')
+				console.log(userDoc.id)
+				console.log(fcmToken)
+
+		// 	})
+		// })
 		
-		db.collection('users').doc('{userId}').get()
-		.then( (userRef) => {
-			if (userRef) {
-				console.log(userRef.data()['fcmToken'])
-				admin.messaging().sendToDevice(userRef.data()['fcmToken'], payload)
-				console.log('sent a message')
-			}
+		// db.collection('users').doc(`${user.id}`).get()
+		// .then( (userRef) => {
+		// 	if (userRef) {
+
+		// 		console.log('user: ' + userRef.id)
+		// 		const fcmToken = userRef.get('fcmToken')
+		// 		console.log(fcmToken)
+
+				// add promise to our list
+				promises.push(admin.messaging().sendToDevice(fcmToken, payload));
+			})
 		})
+		.then( () => {
+			console.log(promises)
+			return Promise.all(promises)
+			.then( (response) => {
+					console.log("Successfully sent message:", response);
+			})
+			.catch(function(err) {
+				console.log("Error sending message:", err);
+			});
+		})
+		.catch(err => {
+			console.log(err)
+		})
+
+		
+
+		
 
 		// return new Promise( () => 'all set')
 		

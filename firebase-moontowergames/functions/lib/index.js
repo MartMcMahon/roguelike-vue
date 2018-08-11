@@ -12,26 +12,52 @@ const buildPayload = (context) => {
         data: {
             data_type: "direct_message",
             title: "New Message: " + context.params.msgId,
-            message: context.params.msgBody,
-            message_id: 'ok'
-        }
+            message: "heyyyyyyy",
+            message_id: "ok"
+        },
+        notification: {
+            "title": "there was a message!",
+            "body": "somebody said a thing!",
+        },
     };
 };
 exports.sendMessageNotification = functions.firestore.document('messages/{msgId}')
     .onWrite((change, context) => {
-    console.log(change);
+    // console.log(change)
     console.log(context);
     const payload = buildPayload(context);
-    return db.collection('users').doc('{userId}').collection('notificationTokens').get()
-        .then((notificationTokens) => {
-        if (notificationTokens) {
-            notificationTokens.forEach(doc => {
-                console.log('sent a message');
-                return admin.messaging().sendToDevice(doc.id, payload);
-            });
-        }
+    const promises = [];
+    db.collection('users').get().then(usersSnapshot => {
+        usersSnapshot.forEach(userDoc => {
+            const fcmToken = userDoc.get('fcmToken');
+            console.log(userDoc.id);
+            console.log(fcmToken);
+            // 	})
+            // })
+            // db.collection('users').doc(`${user.id}`).get()
+            // .then( (userRef) => {
+            // 	if (userRef) {
+            // 		console.log('user: ' + userRef.id)
+            // 		const fcmToken = userRef.get('fcmToken')
+            // 		console.log(fcmToken)
+            // add promise to our list
+            promises.push(admin.messaging().sendToDevice(fcmToken, payload));
+        });
+    })
+        .then(() => {
+        console.log(promises);
+        return Promise.all(promises)
+            .then((response) => {
+            console.log("Successfully sent message:", response);
+        })
+            .catch(function (err) {
+            console.log("Error sending message:", err);
+        });
+    })
+        .catch(err => {
+        console.log(err);
     });
-    return new Promise(() => 'all set');
+    // return new Promise( () => 'all set')
     // console.log(getDeviceTokensPromise)
     //get the user id of the person who sent the message
     // const sender = change.after.child('sender').val();
