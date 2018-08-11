@@ -2,44 +2,36 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-// import { DeltaSnapshot } from 'firebase-functions/lib/providers/database';
-// import { Change } from '../node_modules/firebase-functions/lib/cloud-functions';
 // init admin
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
-const buildPayload = (context) => {
+const buildPayload = (change, context) => {
+    let data = change.after.getData();
     return {
         data: {
             data_type: "direct_message",
-            title: "New Message: " + context.params.msgId,
-            message: "heyyyyyyy",
+            title: data['sender'] + ":",
+            // context.params.msgId,
+            message: data['body'],
             message_id: "ok"
         },
         notification: {
-            "title": "there was a message!",
-            "body": "somebody said a thing!",
+            "title": data['sender'] + ":",
+            "body": data['body'],
         },
     };
 };
 exports.sendMessageNotification = functions.firestore.document('messages/{msgId}')
     .onWrite((change, context) => {
     // console.log(change)
-    console.log(context);
-    const payload = buildPayload(context);
+    // console.log(context)
+    const payload = buildPayload(change, context);
     const promises = [];
     db.collection('users').get().then(usersSnapshot => {
         usersSnapshot.forEach(userDoc => {
             const fcmToken = userDoc.get('fcmToken');
             console.log(userDoc.id);
             console.log(fcmToken);
-            // 	})
-            // })
-            // db.collection('users').doc(`${user.id}`).get()
-            // .then( (userRef) => {
-            // 	if (userRef) {
-            // 		console.log('user: ' + userRef.id)
-            // 		const fcmToken = userRef.get('fcmToken')
-            // 		console.log(fcmToken)
             // add promise to our list
             promises.push(admin.messaging().sendToDevice(fcmToken, payload));
         });
@@ -57,40 +49,5 @@ exports.sendMessageNotification = functions.firestore.document('messages/{msgId}
         .catch(err => {
         console.log(err);
     });
-    // return new Promise( () => 'all set')
-    // console.log(getDeviceTokensPromise)
-    //get the user id of the person who sent the message
-    // const sender = change.after.child('sender').val();
-    // const sender = 'me'
-    // console.log("sender: ", sender);
-    // const fcmToken = 'fXfkpMKvcnc:APA91bG-F6WMwNSg3zLKPuyiDrJ06n7TjOVz3Ym6JAeb-oX-Cxd7ATUljRJGwn8ocTzvRtDW-GgFoCnjJqSh0iq28gq5g1Q5oEDFrygYgq5o-1f4TuZXuFdJvFBweG9XjE9EW6K0koXA'
-    // Build the message payload and send the message
-    // console.log("Construction the notification message.");
-    // const payload = {
-    // 	data: {
-    // 		data_type: "direct_message",
-    // 		title: "New Message: " + context.params.msgId,//from " + sender,
-    // 		message: "YO",
-    // 		message_id: 'ok',
-    // 	}
-    // };
-    // return admin.messaging().sendToDevice(fcmToken, payload)
-    // 	.then(function(response) {
-    // 		console.log("Successfully sent message:", response);
-    // 	})
-    // 	.catch(function(error) {
-    // 		console.log("Error sending message:", error);
-    // 	});
 });
-// exports.sendMessageNotification = functions.database.ref('/messages/{msgId}')
-// 	.onWrite( (change, context) => {
-// 		console.log(change)
-// 		console.log(context)
-// 		console.log(context)
-// 		// Get the list of device notification tokens.
-// 		const getDeviceTokensPromise = admin.database()
-// 		.ref('/users/${userId}/notificationTokens').once('value');
-// 		console.log(getDeviceTokensPromise)
-// // Get the follower profile.
-// const getFollowerProfilePromise = admin.auth().getUser(userId);
 //# sourceMappingURL=index.js.map
