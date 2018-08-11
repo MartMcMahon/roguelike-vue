@@ -25,24 +25,13 @@ exports.sendMessageNotification = functions.firestore.document('messages/{msgId}
 		console.log(context)
 
 		const payload = buildPayload(context)
-
-		// const tokens = []
-
-		// db.collection('users').get()
-		// 	.then( (usersRef) => {
-		// 		usersRef.forEach(userDoc => {
-		// 			db.collection('users').document(userDoc.id).collection('notificationTokens').get('notificationToken')
-					
-		// 		});
-		// 	}
 		
-		db.collection('users').doc('{userId}').collection('notificationTokens').get()
-		.then( (notificationTokens) => {
-			if (notificationTokens) {
-				notificationTokens.forEach(doc => {
-					console.log('sent a message')
-					admin.messaging().sendToDevice(doc.id, payload)
-				});
+		db.collection('users').doc('{userId}').get()
+		.then( (userRef) => {
+			if (userRef) {
+				console.log(userRef.data()['fcmToken'])
+				admin.messaging().sendToDevice(userRef.data()['fcmToken'], payload)
+				console.log('sent a message')
 			}
 		})
 
