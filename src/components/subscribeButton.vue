@@ -20,6 +20,8 @@ export default class SubscribeButton extends Vue {
 	created() {
 		this.messaging.usePublicVapidKey("BM47ty_fAI2_Kd0AH0gUy3KtbTs1AMkqozdNmCsMcIOZNpEafunPf7ozMO0tA41hiWqcPMEvIvJR914zvd17UYA")
 
+		this.messaging.requestPermission()
+
 		this.messaging.onTokenRefresh( () => {
 			this.messaging.getToken().then( (refreshedToken) => {
 				if (refreshedToken) {
@@ -48,7 +50,7 @@ export default class SubscribeButton extends Vue {
 					.then( (token) => {
 						console.log(token)
   					if (token) {
-							firestore.collection('users').doc(this.user.uid).set({ id: 'fcmToken', value: token }).then(() => {
+							firestore.collection('users').doc(this.user.uid).set({ fcmToken: token }).then(() => {
 								console.log('done')
 								console.log(firestore.collection('users').doc(this.user.uid).get())
 							})
