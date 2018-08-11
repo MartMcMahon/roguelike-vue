@@ -48,17 +48,10 @@ export default class SubscribeButton extends Vue {
 					.then( (token) => {
 						console.log(token)
   					if (token) {
-							let notificationTokens = firestore.collection('users').doc(this.user.uid).get()
-								.then((thing) => {
-									console.log(thing)
-								
-
-							// firestore.collection('users').doc(this.user.uid).get() .collection('notificationTokens'). .add({ value: token }).then(() => {
-							// 	console.log('done')
+							firestore.collection('users').doc(this.user.uid).collection('notificationTokens').add({ id: token, value: 'now' }).then(() => {
+								console.log('done')
 							})
   					} else {
-							// // We have token to send to backend
-							// firestore.collection('users').doc(this.user.uid).collection('notificationTokens').add({ value: token }).then(() => {
 							console.log('no token')
 						}
 				})
